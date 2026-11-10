@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🐻 AI 炼丹机 V4.0（多线并联版）</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 12px; padding-bottom: 80px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .logo { text-align: center; margin-bottom: 16px; }
+    .logo h1 { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; }
+    .logo p { font-size: 11px; color: rgba(255,255,255,0.8); }
+    
+    .card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .section-title { font-size: 14px; font-weight: 700; color: #667eea; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .section-title::before { content: ''; width: 4px; height: 14px; background: linear-gradient(180deg, #667eea, #764ba2); border-radius: 2px; }
+    
+    label { font-size: 11px; font-weight: 600; color: #555; margin-bottom: 4px; display: block; }
+    input[type="text"], input[type="password"], select { 
+      width: 100%; padding: 10px 12px; border: 2px solid #e0e7ff; border-radius: 10px; 
+      font-size: 12px; margin-bottom: 10px; outline: none; background: #fafbff; color: #333;
+    }
+    input:focus, select:focus { border-color: #667eea; background: white; }
+    
+    .row-2 { display: flex; gap: 8px; }
+    .row-2 > * { flex: 1; }
+    
+    .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-bottom: 8px; transition: 0.2s; }
+    .btn:active { transform: scale(0.98); opacity: 0.9; }
+    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .btn-warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+    .btn-danger { background: #ff7675; }
+
+    /* API 配置区特殊样式 */
+    .api-config-box { background: #f8f9ff; border: 1px solid #e0e7ff; padding: 12px; border-radius: 12px; margin-bottom: 10px; }
+
+    .drawer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
+    .drawer-box { background: #f8f9ff; border: 1px solid #dce4ff; border-radius: 10px; padding: 10px; text-align: center; }
+    .drawer-name { font-size: 11px; font-weight: 700; color: #3b74d4; margin-bottom: 4px; }
+    .drawer-count { font-size: 16px; font-weight: 800; color: #ff6b81; }
+
+    .result-box { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); padding: 14px; border-radius: 12px; font-size: 12px; line-height: 1.6; color: #2d3436; white-space: pre-wrap; word-break: break-all; min-height: 80px; }
+    .trace-box { margin-top: 10px; background: #f8f9ff; border: 1px dashed #a29bfe; border-radius: 10px; padding: 10px; display: none; }
+    .trace-item { font-size: 11px; color: #333; margin-bottom: 6px; background: white; padding: 4px 8px; border-radius: 6px; border: 1px solid #eee; }
+    .trace-source { font-size: 9px; color: #e17055; background: #ffeaa7; padding: 2px 4px; border-radius: 4px; margin-left: 6px; }
+
+    input[type="file"] { display: none; }
+    .tip { font-size: 10px; color: #888; background: #fff3cd; padding: 8px; border-radius: 6px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo">
+      <h1>🐻 AI 炼丹机 V4.0</h1>
+      <p>多线路 API 切换 · 全自动生肉解剖</p>
+    </div>
+
+    <!-- 1. API 线路池管理 -->
+    <div class="card">
+      <div class="section-title">🔌 1. 接口线路中枢 (防中转站跑路)</div>
+      
+      <label>快速切换已存线路：</label>
+      <div class="row-2">
+        <select id="apiSelector" onchange="loadSelectedApi()"></select>
+        <button class="btn btn-danger" style="margin-bottom:0;" onclick="deleteApi()">🗑️ 删除此线路</button>
+      </div>
+
+      <div class="api-config-box">
+        <input type="text" id="apiAlias" placeholder="给这条线路起个名字 (如: 主力站/备用站)">
+        <input type="text" id="apiHost" placeholder="接口地址 (含 https://)">
+        <input type="password" id="apiKey" placeholder="API Key (sk-...)">
+        <input type="text" id="apiModel" placeholder="模型名称 (如 claude-3-5-sonnet)">
+        <button class="btn btn-success" style="margin-bottom:0;" onclick="saveApi()">💾 保存/更新这条线路</button>
+      </div>
+    </div>
+
+    <!-- 2. AI 全自动分拣机 -->
+    <div class="card">
+      <div class="section-title">🔪 2. AI 生肉分拣厂</div>
+      <div class="tip">只需导入原始整段咒语 txt，AI 会自动帮你切碎、提炼并动态创建分类抽屉！</div>
+      
+      <div class="drawer-grid" id="drawerGrid">
+        <div class="drawer-box"><div class="drawer-name">暂无分类</div><div class="drawer-count">0</div></div>
+      </div>
+
+      <button class="btn btn-warning" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">
+        📥 导入整段生肉 txt（调用当前 AI 自动切词）
+      </button>
+      <button class="btn" style="background:#e74c3c; margin-top:4px;" onclick="clearLibrary()">🗑️ 清空所有词库</button>
+      <input type="file" id="batchFiles" multiple accept=".txt">
+    </div>
+
+    <!-- 3. 抽卡与生成 -->
+    <div class="card">
+      <div class="section-title">🎲 3. 跨抽屉随机抽卡洗稿</div>
+      <input type="text" id="customTheme" placeholder="输入你想跑的主题（如：清冷双强, 病娇战损）">
+      <button class="btn btn-primary" onclick="generateMagic()" id="genBtn">⚡ 一键抽卡 & 润色咒语 (调用当前 AI)</button>
+    </div>
+
+    <!-- 4. 结果展示 -->
+    <div class="card">
+      <div class="section-title">✨ 4. 最终出炉神词</div>
+      <div class="result-box" id="resultBox">等待生成...</div>
+      
+      <div class="trace-box" id="traceBox">
+        <div style="font-size: 11px; font-weight: bold; color: #667eea; margin-bottom: 6px;">🧩 本次灵感溯源：</div>
+        <div id="traceContent"></div>
+      </div>
+
+      <button class="btn btn-success" style="margin-top: 10px;" onclick="copyResult()">📋 复制咒语去跑图</button>
+    </div>
+  </div>
+
+  <script>
+    // 动态词库结构
+    let dynamicLibrary = {}; 
+    // API 线路池结构
+    let apiList = [];
+    let currentApiId = null;
+
+    window.onload = () => {
+      // 加载词库
+      const savedLib = localStorage.getItem('bear4_library');
+      if (savedLib) {
+        try { dynamicLibrary = JSON.parse(savedLib); renderDrawers(); } catch(e) {}
+      }
+      
+      // 加载 API 线路列表
+      const savedApis = localStorage.getItem('bear4_api_list');
+      if (savedApis) {
+        try { apiList = JSON.parse(savedApis); } catch(e) {}
+      }
+      
+      // 如果没有线路，给个空模板
+      if (apiList.length === 0) {
+        apiList.push({ id: Date.now(), name: '我的默认线路', host: '', key: '', model: '' });
+      }
+      
+      currentApiId = localStorage.getItem('bear4_current_api') || apiList[0].id;
+      renderApiSelector();
+      loadSelectedApi();
+    };
+
+    // ================= API 线路池管理 =================
+    function renderApiSelector() {
+      const selector = document.getElementById('apiSelector');
+      selector.innerHTML = '<option value="new">➕ 添加新线路...</option>';
+      apiList.forEach(api => {
+        const opt = document.createElement('option');
+        opt.value = api.id;
+        opt.innerText = api.name;
+        if (api.id == currentApiId) opt.selected = true;
+        selector.appendChild(opt);
+      });
+    }
+
+    function loadSelectedApi() {
+      const selectedVal = document.getElementById('apiSelector').value;
+      if (selectedVal === 'new') {
+        currentApiId = Date.now();
+        document.getElementById('apiAlias').value = '新线路_' + Math.floor(Math.random()*100);
+        document.getElementById('apiHost').value = '';
+        document.getElementById('apiKey').value = '';
+        document.getElementById('apiModel').value = '';
+      } else {
+        currentApiId = parseInt(selectedVal);
+        const api = apiList.find(a => a.id === currentApiId);
+        if (api) {
+          document.getElementById('apiAlias').value = api.name;
+          document.getElementById('apiHost').value = api.host;
+          document.getElementById('apiKey').value = api.key;
+          document.getElementById('apiModel').value = api.model;
+          localStorage.setItem('bear4_current_api', currentApiId);
+        }
+      }
+    }
+
+    function saveApi() {
+      const name = document.getElementById('apiAlias').value.trim() || '未命名线路';
+      const host = document.getElementById('apiHost').value.trim();
+      const key = document.getElementById('apiKey').value.trim();
+      const model = document.getElementById('apiModel').value.trim();
+
+      if (!host || !key || !model) { alert("⚠️ 地址、Key 和 模型都不能为空！"); return; }
+
+      const existingIndex = apiList.findIndex(a => a.id === currentApiId);
+      if (existingIndex >= 0) {
+        // 更新旧线路
+        apiList[existingIndex] = { id: currentApiId, name, host, key, model };
+      } else {
+        // 保存新线路
+        apiList.push({ id: currentApiId, name, host, key, model });
+      }
+
+      localStorage.setItem('bear4_api_list', JSON.stringify(apiList));
+      localStorage.setItem('bear4_current_api', currentApiId);
+      renderApiSelector();
+      alert("✅ 线路保存成功！随时可以在下拉框一键切换。");
+    }
+
+    function deleteApi() {
+      if (apiList.length <= 1) { alert("⚠️ 至少要保留一条线路！"); return; }
+      if (confirm("确定要删除当前选中的这条线路吗？")) {
+        apiList = apiList.filter(a => a.id !== currentApiId);
+        currentApiId = apiList[0].id;
+        localStorage.setItem('bear4_api_list', JSON.stringify(apiList));
+        localStorage.setItem('bear4_current_api', currentApiId);
+        renderApiSelector();
+        loadSelectedApi();
+      }
+    }
+
+    // ================= 词库管理与生成逻辑 =================
+    function renderDrawers() {
+      const grid = document.getElementById('drawerGrid');
+      grid.innerHTML = '';
+      const categories = Object.keys(dynamicLibrary);
+      if (categories.length === 0) {
+        grid.innerHTML = `<div class="drawer-box"><div class="drawer-name">暂无分类</div><div class="drawer-count">0</div></div>`;
+        return;
+      }
+      categories.forEach(cat => {
+        const count = dynamicLibrary[cat].length;
+        const box = document.createElement('div');
+        box.className = 'drawer-box';
+        box.innerHTML = `<div class="drawer-name">📁 ${cat}</div><div class="drawer-count">${count}</div>`;
+        grid.appendChild(box);
+      });
+    }
+
+    function clearLibrary() {
+      if (confirm("确定要清空所有词库数据吗？清空后不可恢复！")) {
+        dynamicLibrary = {};
+        localStorage.removeItem('bear4_library');
+        renderDrawers();
+      }
+    }
+
+    document.getElementById('batchFiles').addEventListener('change', async function(e) {
+      const files = Array.from(e.target.files);
+      if (files.length === 0) return;
+
+      const host = document.getElementById('apiHost').value.trim();
+      const key = document.getElementById('apiKey').value.trim();
+      const model = document.getElementById('apiModel').value.trim();
+      if (!host || !key || !model) { alert("⚠️ 请先配置并保存 API！切词需要大模型帮忙！"); return; }
+
+      const btn = document.getElementById('uploadBtn');
+      btn.innerText = "⏳ AI 切词中 (耗时较长请勿刷新)..."; btn.disabled = true;
+
+      try {
+        for (let file of files) {
+          const sourceName = file.name;
+          const text = await readFileAsync(file);
+
+          const sysPrompt = `你是一个提示词拆解专家。我给你一段整篇的英文 AI 绘图提示词，请你提取其中最有价值的【局部细节短语】（如光影、服饰、五官、背景等）。
+请严格以 JSON 格式输出，分门别类！
+格式示例：
+{
+  "服装配饰": ["dark silk robes", "silver earring"],
+  "光影氛围": ["cinematic lighting", "volumetric dust"],
+  "面部神态": ["cold eyes", "pale skin"]
+}
+你可以自己归类，只输出合法的 JSON，绝对不要输出任何废话。`;
+
+          const response = await fetch(`${host}/chat/completions`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+            body: JSON.stringify({ model: model, messages: [{"role": "system", "content": sysPrompt},{"role": "user", "content": text}], temperature: 0.3 })
+          });
+          
+          const data = await response.json();
+          let rawJsonStr = data.choices[0].message.content;
+          const jsonMatch = rawJsonStr.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const aiResult = JSON.parse(jsonMatch[0]);
+            Object.keys(aiResult).forEach(category => {
+              if (!dynamicLibrary[category]) dynamicLibrary[category] = [];
+              const words = aiResult[category];
+              words.forEach(w => {
+                if (!dynamicLibrary[category].some(item => item.text === w)) {
+                  dynamicLibrary[category].push({ text: w, source: sourceName });
+                }
+              });
+            });
+          }
+        }
+        localStorage.setItem('bear4_library', JSON.stringify(dynamicLibrary));
+        renderDrawers();
+        alert("✅ AI 切割完毕！已自动分类存入抽屉！");
+      } catch (err) { alert("❌ 请求失败：" + err.message); } finally {
+        btn.innerText = "📥 导入整段生肉 txt（调用当前 AI 切词）"; btn.disabled = false; e.target.value = '';
+      }
+    });
+
+    function readFileAsync(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsText(file);
+      });
+    }
+
+    async function generateMagic() {
+      const host = document.getElementById('apiHost').value.trim();
+      const key = document.getElementById('apiKey').value.trim();
+      const model = document.getElementById('apiModel').value.trim();
+      
+      const categories = Object.keys(dynamicLibrary);
+      if (categories.length === 0) { alert("⚠️ 词库为空，请先导入 txt 让 AI 解析！"); return; }
+      
+      const theme = document.getElementById('customTheme').value.trim() || '高冷神颜';
+      const genBtn = document.getElementById('genBtn');
+      genBtn.innerText = "⏳ 正在请求接口洗稿中..."; genBtn.disabled = true;
+
+      let allSelectedObjs = [];
+      categories.forEach(cat => {
+        if (dynamicLibrary[cat].length > 0) {
+          const shuffled = [...dynamicLibrary[cat]].sort(() => 0.5 - Math.random());
+          allSelectedObjs.push(shuffled[0]);
+        }
+      });
+
+      const traceContainer = document.getElementById('traceContent');
+      traceContainer.innerHTML = '';
+      allSelectedObjs.forEach(obj => {
+        const div = document.createElement('div');
+        div.className = 'trace-item';
+        div.innerHTML = `${obj.text} <span class="trace-source">源: ${obj.source}</span>`;
+        traceContainer.appendChild(div);
+      });
+      document.getElementById('traceBox').style.display = 'block';
+
+      const allSelectedTexts = allSelectedObjs.map(o => o.text);
+      const sysPrompt = `你是顶级 Midjourney 提示词大师。根据主题和碎片词汇，融合成一段极具电影感的英文 Prompt。要求：保留冷感疏离美学。直接输出英文，格式如：A portrait of..., cinematic lighting, 8k --ar 9:16`;
+      const userPrompt = `主题：${theme}\n碎片词：${allSelectedTexts.join(', ')}`;
+      
+      try {
+        const response = await fetch(`${host}/chat/completions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+          body: JSON.stringify({ model: model, messages: [{"role": "system", "content": sysPrompt},{"role": "user", "content": userPrompt}], temperature: 0.8 })
+        });
+        
+        const data = await response.json();
+        if (data.choices && data.choices[0]) {
+          document.getElementById('resultBox').innerText = data.choices[0].message.content + " --style raw --s 250";
+        } else { document.getElementById('resultBox').innerText = "❌ 接口报错：" + JSON.stringify(data); }
+      } catch (err) { document.getElementById('resultBox').innerText = "❌ 失败：" + err.message; } finally {
+        genBtn.innerText = "⚡ 一键抽卡 & 润色咒语"; genBtn.disabled = false;
+      }
+    }
+
+    function copyResult() {
+      const text = document.getElementById('resultBox').innerText;
+      if (text === '等待生成...') return;
+      navigator.clipboard.writeText(text).then(() => alert("✅ 已复制，去跑图吧！"));
+    }
+  </script>
+</body>
+</html>
