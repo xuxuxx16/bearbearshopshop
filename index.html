@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🐻 小熊盐饭堂・工具箱</title>
+  <title>🐻 小熊盐饭堂・专属工具箱</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -25,51 +25,73 @@
       -webkit-text-fill-color: transparent;
     }
     .subtitle { font-size: 12px; color: #888; margin-bottom: 30px; }
+    
+    /* 工具卡片网格布局：手机上单列或双列，平板上多列 */
     .tool-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
       width: 100%;
-      max-width: 420px;
+      max-width: 500px;
     }
+    
     .tool-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       background: rgba(255, 255, 255, 0.92);
       border-radius: 20px;
       padding: 28px 16px;
       text-align: center;
-      text-decoration: none;
+      text-decoration: none; /* 去掉超链接下划线 */
       color: #233142;
       box-shadow: 0 6px 24px rgba(94, 158, 255, 0.12);
       transition: all 0.2s;
       border: 1px solid rgba(255, 255, 255, 0.9);
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
     .tool-card:active { transform: scale(0.97); }
-    .tool-icon { font-size: 40px; margin-bottom: 12px; }
-    .tool-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-    .tool-desc { font-size: 10px; color: #888; line-height: 1.4; }
-    .footer { margin-top: 30px; font-size: 10px; color: #bbb; }
+    
+    .tool-icon { font-size: 42px; margin-bottom: 12px; }
+    .tool-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #2b6fd8; }
+    .tool-desc { font-size: 11px; color: #7f8c8d; line-height: 1.5; }
+    
+    .footer { margin-top: 40px; font-size: 10px; color: #bbb; text-align: center; }
   </style>
 </head>
 <body>
+
   <h1>🐻🍚 小熊盐饭堂</h1>
-  <div class="subtitle">私人专属工具箱</div>
+  <div class="subtitle">主理人专属赛博控制台</div>
   
   <div class="tool-grid">
-    <!-- 关键修复：用 onclick 强制跳转当前目录下的文件，绕开 a 标签解析 bug -->
-    <div class="tool-card" onclick="window.location.href='./manage.html'">
+    
+    <!-- 神器 1：发货管理台 -->
+    <a class="tool-card" href=" ">
       <div class="tool-icon">📋</div>
       <div class="tool-name">发货管理台</div>
-      <div class="tool-desc">导入商品 · 标价<br>打勾发货 · 按天存档</div>
-    </div>
+      <div class="tool-desc">导入商品 · 标价<br>打勾发货 · 战报存档</div>
+    </a >
     
-    <div class="tool-card" onclick="window.location.href='./pintu.html'">
+    <!-- 神器 2：拼图工坊 -->
+    <a class="tool-card" href="pintu.html">
       <div class="tool-icon">🖼️</div>
       <div class="tool-name">拼图工坊</div>
-      <div class="tool-desc">九宫格排版 · 编号<br>水印 · 无损导出</div>
-    </div>
+      <div class="tool-desc">九宫格排版 · 自动编号<br>专属防盗水印导出</div>
+    </a >
+
+    <!-- 神器 3：AI 炼丹机 (新加的！) -->
+    <a class="tool-card" href="ai-prompt.html">
+      <div class="tool-icon">🔮</div>
+      <div class="tool-name">AI 炼丹机</div>
+      <div class="tool-desc">生肉自动解剖分类<br>灵感溯源 · 抽卡洗稿</div>
+    </a >
+
   </div>
   
-  <div class="footer">🔒 所有数据仅存于本地浏览器 · 不上传任何云端</div>
+  <div class="footer">🔒 数据仅存于本地浏览器缓存 · 不上传任何公有云端</div>
+
 </body>
 </html>
