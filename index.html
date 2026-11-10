@@ -42,6 +42,7 @@
       box-shadow: 0 6px 24px rgba(94, 158, 255, 0.12);
       transition: all 0.2s;
       border: 1px solid rgba(255, 255, 255, 0.9);
+      cursor: pointer;
     }
     .tool-card:active { transform: scale(0.97); }
     .tool-icon { font-size: 40px; margin-bottom: 12px; }
@@ -53,18 +54,22 @@
 <body>
   <h1>🐻🍚 小熊盐饭堂</h1>
   <div class="subtitle">私人专属工具箱</div>
+  
   <div class="tool-grid">
-    <a class="tool-card" href=" ">
+    <!-- 关键修复：用 onclick 强制跳转当前目录下的文件，绕开 a 标签解析 bug -->
+    <div class="tool-card" onclick="window.location.href='./manage.html'">
       <div class="tool-icon">📋</div>
       <div class="tool-name">发货管理台</div>
       <div class="tool-desc">导入商品 · 标价<br>打勾发货 · 按天存档</div>
-    </a >
-    <a class="tool-card" href="pintu.html">
+    </div>
+    
+    <div class="tool-card" onclick="window.location.href='./pintu.html'">
       <div class="tool-icon">🖼️</div>
       <div class="tool-name">拼图工坊</div>
       <div class="tool-desc">九宫格排版 · 编号<br>水印 · 无损导出</div>
-    </a >
+    </div>
   </div>
+  
   <div class="footer">🔒 所有数据仅存于本地浏览器 · 不上传任何云端</div>
 </body>
 </html>
