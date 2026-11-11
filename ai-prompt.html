@@ -3,114 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小熊盐饭堂 · AI 炼丹舱</title>
+  <title>小熊盐饭堂 · AI 炼丹舱 V5.1</title>
   <style>
-    /* 极致 Vibe 现代极简风 */
     :root {
-      --bg: #f4f4f5;
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --text-main: #18181b;
-      --text-sub: #71717a;
-      --accent: #000000;
-      --accent-soft: #f4f4f5;
-      --blue-vibe: #3b82f6;
-      --border: rgba(0, 0, 0, 0.08);
-      --shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+      --bg: #f4f4f5; --card-bg: rgba(255, 255, 255, 0.85); --text-main: #18181b; --text-sub: #71717a;
+      --accent: #000000; --blue-vibe: #3b82f6; --border: rgba(0, 0, 0, 0.08); --shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
       --radius: 20px;
     }
-    
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; 
-      background: var(--bg);
-      background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%);
-      color: var(--text-main); min-height: 100vh; padding: 16px; padding-bottom: 80px;
-    }
-    
+    body { font-family: -apple-system, sans-serif; background: var(--bg); background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%); color: var(--text-main); min-height: 100vh; padding: 16px; padding-bottom: 80px; }
     .container { max-width: 600px; margin: 0 auto; }
-    
-    /* 高级感 Header */
     .header { text-align: center; margin: 24px 0 32px 0; }
     .badge { display: inline-block; padding: 4px 12px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 10px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
     .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
     .header p { font-size: 12px; color: var(--text-sub); }
-
-    /* 顶级毛玻璃卡片 */
-    .card { 
-      background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-radius: var(--radius); padding: 24px; margin-bottom: 20px; 
-      box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8); 
-    }
-    
+    .card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8); }
     .section-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-    
-    /* 极简输入框 */
-    input[type="text"], input[type="password"], select { 
-      width: 100%; padding: 14px 16px; border: 1px solid #e4e4e7; border-radius: 12px; 
-      font-size: 13px; margin-bottom: 12px; outline: none; background: white; color: var(--text-main);
-      transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-    }
+    input[type="text"], input[type="password"], select { width: 100%; padding: 14px 16px; border: 1px solid #e4e4e7; border-radius: 12px; font-size: 13px; margin-bottom: 12px; outline: none; background: white; color: var(--text-main); transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
     input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
     input[type="range"] { width: 100%; accent-color: var(--accent); height: 4px; border-radius: 2px; margin: 12px 0; }
-    
-    /* 高奢按钮系统 */
-    .btn { 
-      width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 14px; 
-      font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: transform 0.15s ease, opacity 0.15s; 
-    }
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: transform 0.15s, opacity 0.15s; }
     .btn:active { transform: scale(0.98); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    
     .btn-dark { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .btn-light { background: white; color: var(--text-main); border: 1px solid #e4e4e7; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
     .btn-blue { background: var(--blue-vibe); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
-
-    /* 组合按键条 */
     .row-2 { display: flex; gap: 10px; }
     .row-2 > * { flex: 1; }
-
-    /* 高级数据看板 */
     .drawer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
     .drawer-box { background: white; border: 1px solid #f4f4f5; border-radius: 14px; padding: 16px; text-align: left; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
     .drawer-box:active { background: #fafafa; border-color: #e4e4e7; }
     .drawer-name { font-size: 11px; font-weight: 600; color: var(--text-sub); margin-bottom: 4px; }
     .drawer-count { font-size: 20px; font-weight: 800; color: var(--text-main); }
-
-    /* 苹果风 Tag */
     .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-    .tag { 
-      padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; 
-      background: white; border: 1px solid #e4e4e7; color: var(--text-sub); cursor: pointer; transition: all 0.2s;
-    }
+    .tag { padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; background: white; border: 1px solid #e4e4e7; color: var(--text-sub); cursor: pointer; transition: all 0.2s; }
     .tag.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-    /* 结果展示区 */
-    .result-box { 
-      background: #fafafa; padding: 20px; border-radius: 16px; font-size: 13px; line-height: 1.6; 
-      color: var(--text-main); white-space: pre-wrap; word-break: break-all; min-height: 100px;
-      border: 1px solid #e4e4e7; font-family: "SF Mono", monospace;
-    }
-    
-    /* 溯源区 */
+    .result-box { background: #fafafa; padding: 20px; border-radius: 16px; font-size: 13px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; word-break: break-all; min-height: 100px; border: 1px solid #e4e4e7; font-family: "SF Mono", monospace; }
+    .quality-check { margin-top: 12px; padding: 12px; background: #fef3c7; border: 1px solid #fbbf24; border-radius: 10px; font-size: 12px; display: none; }
+    .quality-check.pass { background: #d1fae5; border-color: #10b981; }
+    .quality-check.fail { background: #fee2e2; border-color: #ef4444; }
     .trace-toggle { font-size: 11px; color: var(--text-sub); cursor: pointer; text-align: center; margin-top: 16px; font-weight: 500; }
     .trace-box { margin-top: 12px; background: white; border: 1px solid #e4e4e7; border-radius: 12px; padding: 14px; display: none; }
-    .trace-item { font-size: 11px; color: var(--text-main); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f4f4f5; display: flex; flex-direction: column; gap: 4px;}
+    .trace-item { font-size: 11px; color: var(--text-main); margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f4f4f5; }
     .trace-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .trace-word { font-weight: 600; }
-    .trace-source { font-size: 9px; color: var(--text-sub); }
-
+    .trace-word { font-weight: 700; color: #3b82f6; display: block; margin-bottom: 4px; }
+    .trace-cn { font-size: 10px; color: #10b981; display: block; margin-bottom: 4px; }
+    .trace-source { font-size: 9px; color: #f59e0b; background: #fef3c7; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
+    .trace-context { font-size: 10px; color: #71717a; font-style: italic; line-height: 1.4; }
     input[type="file"] { display: none; }
     .tip { font-size: 11px; color: var(--text-sub); margin-bottom: 16px; line-height: 1.5; }
-    
-    /* 弹窗 */
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 999; justify-content: center; align-items: center; padding: 20px; }
     .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 24px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 16px; }
     .close-btn { background: #f4f4f5; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600;}
     .word-list { flex: 1; overflow-y: auto; }
-    .word-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f4f4f5; font-size: 13px; }
-    .word-item-left { display: flex; flex-direction: column; gap: 4px; }
+    .word-item { padding: 12px 0; border-bottom: 1px solid #f4f4f5; font-size: 13px; }
+    .word-item-en { font-weight: 600; color: #3b82f6; margin-bottom: 4px; }
+    .word-item-cn { font-size: 11px; color: #10b981; margin-bottom: 6px; }
+    .word-item-src { font-size: 10px; color: #71717a; margin-bottom: 6px; }
+    .word-item-ctx { font-size: 10px; color: #a1a1aa; font-style: italic; line-height: 1.4; margin-bottom: 8px; }
     .del-btn { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600;}
   </style>
 </head>
@@ -118,66 +69,44 @@
 
   <div class="container">
     <div class="header">
-      <div class="badge">V5.0 AESTHETIC EDITION</div>
+      <div class="badge">V5.1 QUALITY ASSURANCE EDITION</div>
       <h1>AI 炼丹舱</h1>
-      <p>极简 · 智库 · 零损耗</p>
+      <p>中英对照 · 段落溯源 · 自检质控</p>
     </div>
 
-    <!-- 顶栏操作 -->
     <div class="row-2" style="margin-bottom: 16px;">
       <button class="btn btn-light" onclick="exportData()">备份资产</button>
       <button class="btn btn-light" onclick="document.getElementById('importDataInput').click()">恢复数据</button>
       <input type="file" id="importDataInput" accept=".json">
     </div>
 
-    <!-- 1. API 引擎 -->
     <div class="card">
-      <div class="section-title">
-        <span>API 引擎</span>
-        <span style="font-size: 10px; color: #999; font-weight: normal;">本地安全存储</span>
-      </div>
-      
+      <div class="section-title"><span>API 引擎</span></div>
       <select id="apiSelector" onchange="loadSelectedApi()"></select>
-      
-      <input type="text" id="apiAlias" placeholder="线路名称 (如: 主力引擎)">
+      <input type="text" id="apiAlias" placeholder="线路名称">
       <input type="text" id="apiHost" placeholder="接口地址 (https://...)">
-      <input type="password" id="apiKey" placeholder="API Key (sk-...)">
-      
+      <input type="password" id="apiKey" placeholder="API Key">
       <div class="row-2">
         <button class="btn btn-light" onclick="fetchModels()" id="fetchBtn">识别模型</button>
         <select id="modelSelector" style="display:none; margin-bottom:10px;"></select>
       </div>
-
       <div class="row-2" style="margin-top: 4px;">
-        <button class="btn btn-dark" style="margin-bottom:0;" onclick="saveApi()">保存线路</button>
+        <button class="btn btn-dark" style="margin-bottom:0;" onclick="saveApi()">保存</button>
         <button class="btn btn-light" style="margin-bottom:0; color: #ef4444;" onclick="deleteApi()">删除</button>
       </div>
     </div>
 
-    <!-- 2. 词库管理 -->
     <div class="card">
-      <div class="section-title">
-        <span>灵感数据库</span>
-        <span id="totalCount" style="font-size: 11px; color: #a1a1aa; font-weight: normal;">0 条</span>
-      </div>
-      <p class="tip">导入 txt 原始咒语，AI 自动切词分类建库。</p>
-      
+      <div class="section-title"><span>灵感数据库</span><span id="totalCount" style="font-size: 11px; color: #a1a1aa; font-weight: normal;">0 条</span></div>
+      <p class="tip">导入 txt 原始咒语，AI 自动切词、翻译、溯源建库。</p>
       <div class="drawer-grid" id="drawerGrid"></div>
-
-      <button class="btn btn-dark" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">导入生肉 TXT (AI 处理)</button>
+      <button class="btn btn-dark" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">导入生肉 TXT (AI 全自动处理)</button>
       <input type="file" id="batchFiles" multiple accept=".txt">
     </div>
 
-    <!-- 3. 生成区 -->
     <div class="card">
-      <div class="section-title">
-        <span>组装与洗稿</span>
-        <span style="font-size: 11px; font-weight: normal;">
-          批量数: <span id="batchCountVal" style="font-weight: 700; color: #18181b;">3</span> 组
-        </span>
-      </div>
+      <div class="section-title"><span>组装与洗稿</span><span style="font-size: 11px; font-weight: normal;">批量: <span id="batchCountVal" style="font-weight: 700;">3</span> 组</span></div>
       <input type="range" id="batchCount" min="1" max="10" value="3" oninput="document.getElementById('batchCountVal').innerText=this.value;">
-      
       <div class="tag-group" id="tagGroup">
         <div class="tag" data-theme="古风">古风</div>
         <div class="tag" data-theme="赛博朋克">赛博朋克</div>
@@ -186,100 +115,70 @@
         <div class="tag" data-theme="战损">战损</div>
         <div class="tag" data-theme="极简">极简</div>
       </div>
-      <input type="text" id="customTheme" placeholder="或输入自定义主题要求...">
-      <button class="btn btn-blue" onclick="generateMagic()" id="genBtn">开始生成 Prompt</button>
+      <input type="text" id="customTheme" placeholder="或输入自定义主题...">
+      <button class="btn btn-blue" onclick="generateMagic()" id="genBtn">开始生成 & 自检</button>
     </div>
 
-    <!-- 4. 结果区 -->
     <div class="card">
       <div class="section-title">最终咒语</div>
       <div class="result-box" id="resultBox">等待指令...</div>
-      
+      <div class="quality-check" id="qualityCheck"></div>
       <div class="trace-toggle" onclick="toggleTrace()">查看灵感溯源成分 ▾</div>
       <div class="trace-box" id="traceBox"><div id="traceContent"></div></div>
-
       <button class="btn btn-dark" style="margin-top: 16px;" onclick="copyResult()">一键复制</button>
     </div>
   </div>
 
-  <!-- 弹窗 -->
   <div class="modal" id="libModal">
     <div class="modal-content">
-      <div class="modal-header">
-        <span id="modalTitle">分类</span>
-        <button class="close-btn" onclick="document.getElementById('libModal').style.display='none'">关闭</button>
-      </div>
+      <div class="modal-header"><span id="modalTitle">分类</span><button class="close-btn" onclick="document.getElementById('libModal').style.display='none'">关闭</button></div>
       <div class="word-list" id="modalList"></div>
       <div class="row-2" style="margin-top: 16px;">
-        <input type="text" id="newWordInput" placeholder="输入新词..." style="margin-bottom:0;">
+        <input type="text" id="newWordInput" placeholder="英文词..." style="margin-bottom:0;">
         <button class="btn btn-dark" style="margin-bottom:0;" onclick="addWordToCategory()">添加</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 逻辑部分与上一版 V4.1 完全一致，仅删减了冗余 UI 样式代码。
-    let dynamicLibrary = {}; 
-    let apiList = [];
-    let currentApiId = null;
-    let currentEditCategory = '';
-    let availableModels = [];
+    let dynamicLibrary = {}; let apiList = []; let currentApiId = null; let currentEditCategory = ''; let availableModels = []; let selectedTags = new Set();
 
     window.onload = () => {
-      const savedLib = localStorage.getItem('bear4_library_v41');
+      const savedLib = localStorage.getItem('bear51_library');
       if (savedLib) { try { dynamicLibrary = JSON.parse(savedLib); } catch(e) {} }
-      const savedApis = localStorage.getItem('bear4_api_list_v41');
+      const savedApis = localStorage.getItem('bear51_api_list');
       if (savedApis) { try { apiList = JSON.parse(savedApis); } catch(e) {} }
       if (apiList.length === 0) apiList.push({ id: Date.now(), name: '默认引擎', host: '', key: '', model: '', models: [] });
-      currentApiId = localStorage.getItem('bear4_current_api_v41') || apiList[0].id;
+      currentApiId = localStorage.getItem('bear51_current_api') || apiList[0].id;
       renderApiSelector(); loadSelectedApi(); renderDrawers();
-
-      document.querySelectorAll('.tag').forEach(t => {
-        t.addEventListener('click', function() {
-          const theme = this.dataset.theme;
-          if(selectedTags.has(theme)){ selectedTags.delete(theme); this.classList.remove('active'); }
-          else{ selectedTags.add(theme); this.classList.add('active'); }
-        });
-      });
+      document.querySelectorAll('.tag').forEach(t => { t.addEventListener('click', function() { const theme = this.dataset.theme; if(selectedTags.has(theme)){ selectedTags.delete(theme); this.classList.remove('active'); } else{ selectedTags.add(theme); this.classList.add('active'); } }); });
     };
 
-    let selectedTags = new Set();
-
     function renderApiSelector() {
-      const selector = document.getElementById('apiSelector');
-      selector.innerHTML = '<option value="new">+ 新增线路</option>';
-      apiList.forEach(api => {
-        const opt = document.createElement('option'); opt.value = api.id; opt.innerText = api.name;
-        if (api.id == currentApiId) opt.selected = true;
-        selector.appendChild(opt);
-      });
+      const selector = document.getElementById('apiSelector'); selector.innerHTML = '<option value="new">+ 新增线路</option>';
+      apiList.forEach(api => { const opt = document.createElement('option'); opt.value = api.id; opt.innerText = api.name; if (api.id == currentApiId) opt.selected = true; selector.appendChild(opt); });
     }
 
     function loadSelectedApi() {
       const v = document.getElementById('apiSelector').value;
       if (v === 'new') {
-        currentApiId = Date.now();
-        document.getElementById('apiAlias').value = '新引擎';
+        currentApiId = Date.now(); document.getElementById('apiAlias').value = '新引擎';
         ['apiHost', 'apiKey'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('modelSelector').style.display = 'none';
-        availableModels = [];
+        document.getElementById('modelSelector').style.display = 'none'; availableModels = [];
       } else {
-        currentApiId = parseInt(v);
-        const api = apiList.find(a => a.id === currentApiId);
+        currentApiId = parseInt(v); const api = apiList.find(a => a.id === currentApiId);
         if (api) {
-          document.getElementById('apiAlias').value = api.name;
-          document.getElementById('apiHost').value = api.host;
-          document.getElementById('apiKey').value = api.key;
+          document.getElementById('apiAlias').value = api.name; document.getElementById('apiHost').value = api.host; document.getElementById('apiKey').value = api.key;
           if (api.models && api.models.length > 0) { availableModels = api.models; renderModelSelector(api.model); }
           else { document.getElementById('modelSelector').style.display = 'none'; }
-          localStorage.setItem('bear4_current_api_v41', currentApiId);
+          localStorage.setItem('bear51_current_api', currentApiId);
         }
       }
     }
 
     async function fetchModels() {
       const host = document.getElementById('apiHost').value.trim(), key = document.getElementById('apiKey').value.trim();
-      if (!host || !key) return alert("请填写地址和 Key！");
+      if (!host || !key) return alert("请填写地址和Key！");
       const btn = document.getElementById('fetchBtn'); btn.innerText = "识别中..."; btn.disabled = true;
       try {
         const res = await fetch(`${host}/models`, { headers: { 'Authorization': `Bearer ${key}` } });
@@ -288,53 +187,39 @@
         availableModels = (data.data && Array.isArray(data.data)) ? data.data.map(m => m.id) : (Array.isArray(data) ? data.map(m => m.id || m) : []);
         if (availableModels.length === 0) throw new Error("空");
         renderModelSelector(); alert(`获取 ${availableModels.length} 个模型！`);
-      } catch (err) { alert("识别失败，请检查地址或网络。"); } finally { btn.innerText = "识别模型"; btn.disabled = false; }
+      } catch (err) { alert("识别失败。"); } finally { btn.innerText = "识别模型"; btn.disabled = false; }
     }
 
     function renderModelSelector(selectedModel) {
-      const selector = document.getElementById('modelSelector');
-      selector.innerHTML = '<option value="">-- 选择模型 --</option>';
-      availableModels.forEach(m => {
-        const opt = document.createElement('option'); opt.value = m; opt.innerText = m;
-        if (m === selectedModel) opt.selected = true; selector.appendChild(opt);
-      });
+      const selector = document.getElementById('modelSelector'); selector.innerHTML = '<option value="">-- 选择 --</option>';
+      availableModels.forEach(m => { const opt = document.createElement('option'); opt.value = m; opt.innerText = m; if (m === selectedModel) opt.selected = true; selector.appendChild(opt); });
       selector.style.display = 'block';
     }
 
     function saveApi() {
       const name = document.getElementById('apiAlias').value.trim() || '未命名', host = document.getElementById('apiHost').value.trim(), key = document.getElementById('apiKey').value.trim();
       let model = ''; if (availableModels.length > 0) model = document.getElementById('modelSelector').value;
-      if (!host || !key) return alert("必填不能为空！");
+      if (!host || !key) return alert("必填！");
       const idx = apiList.findIndex(a => a.id === currentApiId);
       if (idx >= 0) apiList[idx] = { id: currentApiId, name, host, key, model, models: availableModels };
       else apiList.push({ id: currentApiId, name, host, key, model, models: availableModels });
-      localStorage.setItem('bear4_api_list_v41', JSON.stringify(apiList));
-      localStorage.setItem('bear4_current_api_v41', currentApiId);
-      renderApiSelector(); alert("✅ 保存成功！");
+      localStorage.setItem('bear51_api_list', JSON.stringify(apiList)); localStorage.setItem('bear51_current_api', currentApiId);
+      renderApiSelector(); alert("✅ 保存！");
     }
 
     function deleteApi() {
       if (apiList.length <= 1) return alert("保留一条！");
-      if (confirm("删除此线路？")) {
+      if (confirm("删除？")) {
         apiList = apiList.filter(a => a.id !== currentApiId); currentApiId = apiList[0].id;
-        localStorage.setItem('bear4_api_list_v41', JSON.stringify(apiList)); localStorage.setItem('bear4_current_api_v41', currentApiId);
+        localStorage.setItem('bear51_api_list', JSON.stringify(apiList)); localStorage.setItem('bear51_current_api', currentApiId);
         renderApiSelector(); loadSelectedApi();
       }
     }
 
     function renderDrawers() {
-      const grid = document.getElementById('drawerGrid'); grid.innerHTML = '';
-      const cats = Object.keys(dynamicLibrary);
-      let total = 0;
+      const grid = document.getElementById('drawerGrid'); grid.innerHTML = ''; const cats = Object.keys(dynamicLibrary); let total = 0;
       if (cats.length === 0) { grid.innerHTML = `<div class="drawer-box"><div class="drawer-name">空</div></div>`; }
-      else {
-        cats.forEach(cat => {
-          const count = dynamicLibrary[cat].length; total += count;
-          const box = document.createElement('div'); box.className = 'drawer-box';
-          box.innerHTML = `<div class="drawer-name">${cat}</div><div class="drawer-count">${count}</div>`;
-          box.onclick = () => openCategory(cat); grid.appendChild(box);
-        });
-      }
+      else { cats.forEach(cat => { const count = dynamicLibrary[cat].length; total += count; const box = document.createElement('div'); box.className = 'drawer-box'; box.innerHTML = `<div class="drawer-name">${cat}</div><div class="drawer-count">${count}</div>`; box.onclick = () => openCategory(cat); grid.appendChild(box); }); }
       document.getElementById('totalCount').innerText = `${total} 条`;
     }
 
@@ -347,7 +232,13 @@
       const list = document.getElementById('modalList'); list.innerHTML = '';
       dynamicLibrary[currentEditCategory].forEach((item, idx) => {
         const div = document.createElement('div'); div.className = 'word-item';
-        div.innerHTML = `<div class="word-item-left"><span style="font-weight:600;">${item.text}</span><span style="font-size:10px;color:#999;">${item.source}</span></div><button class="del-btn" onclick="deleteWord(${idx})">删</button>`;
+        div.innerHTML = `
+          <div class="word-item-en">${item.text}</div>
+          <div class="word-item-cn">中文: ${item.translation || '未翻译'}</div>
+          <div class="word-item-src">来源: ${item.source}</div>
+          <div class="word-item-ctx">段落: ${item.context || '无上下文'}</div>
+          <button class="del-btn" onclick="deleteWord(${idx})">删</button>
+        `;
         list.appendChild(div);
       });
     }
@@ -355,16 +246,15 @@
     function deleteWord(idx) {
       dynamicLibrary[currentEditCategory].splice(idx, 1);
       if(dynamicLibrary[currentEditCategory].length === 0) delete dynamicLibrary[currentEditCategory];
-      localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary));
-      renderWordList(); renderDrawers();
+      localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers();
       if(!dynamicLibrary[currentEditCategory]) document.getElementById('libModal').style.display='none';
     }
 
     function addWordToCategory() {
       const val = document.getElementById('newWordInput').value.trim(); if(!val) return;
       if (!dynamicLibrary[currentEditCategory].some(w => w.text === val)) {
-        dynamicLibrary[currentEditCategory].push({ text: val, source: '手动' });
-        localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers(); document.getElementById('newWordInput').value = '';
+        dynamicLibrary[currentEditCategory].push({ text: val, translation: '手动添加', source: '手动', context: '' });
+        localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers(); document.getElementById('newWordInput').value = '';
       }
     }
 
@@ -372,27 +262,51 @@
       const files = Array.from(e.target.files); if (files.length === 0) return;
       const api = apiList.find(a => a.id === currentApiId);
       if (!api || !api.host || !api.key || !api.model) return alert("请配置API！");
-      const btn = document.getElementById('uploadBtn'); btn.innerText = "处理中..."; btn.disabled = true;
+      const btn = document.getElementById('uploadBtn'); btn.innerText = "AI处理中 (耗时较长)..."; btn.disabled = true;
       try {
         for (let file of files) {
           const sourceName = file.name;
           const text = await new Promise(r => { const rd = new FileReader(); rd.onload=e=>r(e.target.result); rd.readAsText(file); });
+          
+          // 第一步：AI切词、分类、翻译、保留上下文
+          const sysPrompt = `你是提示词分析专家。我给你英文AI绘图提示词，请：
+1. 提取有价值的英文短语
+2. 为每个短语提供中文翻译
+3. 保留每个短语的原始上下文（前后20字符）
+4. 自动分类
+
+严格输出JSON格式：
+{
+  "服装": [{"en": "dark silk robes", "cn": "黑色丝绸长袍", "context": "...wearing dark silk robes under..."}],
+  "光影": [{"en": "cinematic lighting", "cn": "电影般的光影", "context": "...with cinematic lighting effect..."}]
+}`;
+          
           const res = await fetch(`${api.host}/chat/completions`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
-            body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `提取英文短语，以JSON格式输出。示例：{"服装": ["dark silk"], "光影": ["cinematic"]}`},{"role": "user", "content": text}], temperature: 0.3 })
+            body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": sysPrompt},{"role": "user", "content": text}], temperature: 0.3 })
           });
           const data = await res.json();
           const match = data.choices[0].message.content.match(/\{[\s\S]*\}/);
           if (match) {
-            const res = JSON.parse(match[0]);
-            Object.keys(res).forEach(cat => {
+            const parsed = JSON.parse(match[0]);
+            Object.keys(parsed).forEach(cat => {
               if (!dynamicLibrary[cat]) dynamicLibrary[cat] = [];
-              res[cat].forEach(w => { if (!dynamicLibrary[cat].some(i => i.text === w)) dynamicLibrary[cat].push({ text: w, source: sourceName }); });
+              parsed[cat].forEach(item => {
+                if (!dynamicLibrary[cat].some(i => i.text === item.en)) {
+                  dynamicLibrary[cat].push({ 
+                    text: item.en, 
+                    translation: item.cn, 
+                    source: sourceName, 
+                    context: item.context || '' 
+                  });
+                }
+              });
             });
           }
         }
-        localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary)); renderDrawers(); alert("✅ 完成！");
-      } catch (err) {} finally { btn.innerText = "导入生肉 TXT"; btn.disabled = false; e.target.value = ''; }
+        localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); renderDrawers(); alert("✅ 完成！");
+      } catch (err) { alert("失败：" + err.message); } 
+      finally { btn.innerText = "导入生肉 TXT"; btn.disabled = false; e.target.value = ''; }
     });
 
     function toggleTrace() {
@@ -403,7 +317,8 @@
       const api = apiList.find(a => a.id === currentApiId);
       if (!api || !api.host || !api.key || !api.model) return alert("配置API！");
       const cats = Object.keys(dynamicLibrary); if (cats.length === 0) return alert("词库空！");
-      const theme = document.getElementById('customTheme').value.trim() || '高冷神颜';
+      const themes = [...selectedTags].concat(document.getElementById('customTheme').value.trim().split(/[,，]/)).filter(t => t);
+      const theme = themes.join('、') || '高冷神颜';
       const batchCount = parseInt(document.getElementById('batchCount').value);
       const btn = document.getElementById('genBtn'); btn.innerText = "生成中..."; btn.disabled = true;
 
@@ -414,22 +329,66 @@
         promptContent += `第${i+1}条参考词：${cg.map(o=>o.text).join(', ')}\n`;
       }
 
+      // 渲染溯源（带翻译和段落）
       const tCon = document.getElementById('traceContent'); tCon.innerHTML = '';
       allTraces.forEach(obj => {
         const div = document.createElement('div'); div.className = 'trace-item';
-        div.innerHTML = `<span class="trace-word">${obj.text}</span> <span class="trace-source">${obj.source}</span>`; tCon.appendChild(div);
+        div.innerHTML = `
+          <span class="trace-word">${obj.text}</span>
+          <span class="trace-cn">中文: ${obj.translation || '无'}</span>
+          <span class="trace-source">来自: ${obj.source}</span>
+          <div class="trace-context">段落: ${obj.context || '无上下文'}</div>
+        `;
+        tCon.appendChild(div);
       });
 
       try {
+        // 生成Prompt
         const res = await fetch(`${api.host}/chat/completions`, {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
-          body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `融合生成极具电影感的英文 Prompt，只输出英文，每段用两个换行符隔开。不要解释。`},{"role": "user", "content": promptContent}], temperature: 0.8 })
+          body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `融合生成极具电影感的英文 Prompt，每段用两个换行符隔开。不要解释。`},{"role": "user", "content": promptContent}], temperature: 0.8 })
         });
-        const data = await res.json();
-        if (data.choices && data.choices[0]) {
-          document.getElementById('resultBox').innerText = data.choices[0].message.content.split('\n\n').map(l => l.trim() + " --style raw --s 250").join('\n\n\n');
+        const resData = await res.json();
+        if (resData.choices && resData.choices[0]) {
+          const rawResult = resData.choices[0].message.content;
+          const finalResult = rawResult.split('\n\n').map(l => l.trim() + " --style raw --s 250").join('\n\n\n');
+          document.getElementById('resultBox').innerText = finalResult;
+
+          // 自检质量
+          btn.innerText = "自检质控中...";
+          const checkPrompt = `你是质量检查专家。用户要求生成主题为"${theme}"的Midjourney提示词。
+请检查以下生成的prompt是否符合要求：
+
+${finalResult}
+
+请判断：
+1. 是否符合"${theme}"主题？
+2. 逻辑是否自洽？
+3. 有无明显错误（如古风中出现星际元素）？
+
+输出格式：
+PASS/FAIL
+理由：xxx`;
+
+          const checkRes = await fetch(`${api.host}/chat/completions`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
+            body: JSON.stringify({ model: api.model, messages: [{"role": "user", "content": checkPrompt}], temperature: 0.3 })
+          });
+          const checkData = await checkRes.json();
+          const checkResult = checkData.choices[0].message.content;
+          
+          const qualityBox = document.getElementById('qualityCheck');
+          qualityBox.style.display = 'block';
+          if (checkResult.toUpperCase().includes('PASS')) {
+            qualityBox.className = 'quality-check pass';
+            qualityBox.innerHTML = `✅ 质检通过<br>${checkResult}`;
+          } else {
+            qualityBox.className = 'quality-check fail';
+            qualityBox.innerHTML = `⚠️ 质检警告<br>${checkResult}`;
+          }
         } else { document.getElementById('resultBox').innerText = "❌ 错误"; }
-      } catch (err) { document.getElementById('resultBox').innerText = "❌ 失败：" + err.message; } finally { btn.innerText = "开始生成 Prompt"; btn.disabled = false; }
+      } catch (err) { document.getElementById('resultBox').innerText = "❌ 失败：" + err.message; } 
+      finally { btn.innerText = "开始生成 & 自检"; btn.disabled = false; }
     }
 
     function copyResult() {
@@ -452,9 +411,9 @@
       reader.onload = function(e) {
         try {
           const data = JSON.parse(e.target.result);
-          if (data.apiList) { apiList = data.apiList; localStorage.setItem('bear4_api_list_v41', JSON.stringify(apiList)); }
-          if (data.currentApiId) { currentApiId = data.currentApiId; localStorage.setItem('bear4_current_api_v41', currentApiId); }
-          if (data.library) { dynamicLibrary = data.library; localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary)); }
+          if (data.apiList) { apiList = data.apiList; localStorage.setItem('bear51_api_list', JSON.stringify(apiList)); }
+          if (data.currentApiId) { currentApiId = data.currentApiId; localStorage.setItem('bear51_current_api', currentApiId); }
+          if (data.library) { dynamicLibrary = data.library; localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); }
           alert("✅ 恢复成功！"); location.reload();
         } catch (err) { alert("❌ 格式错误！"); }
       };
