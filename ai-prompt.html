@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>小熊盐饭堂 · AI 炼丹舱 V5.1</title>
+  <title>小熊盐饭堂 · AI 炼丹舱 V5.2</title>
   <style>
     :root {
       --bg: #f4f4f5; --card-bg: rgba(255, 255, 255, 0.85); --text-main: #18181b; --text-sub: #71717a;
@@ -11,57 +11,72 @@
       --radius: 20px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: -apple-system, sans-serif; background: var(--bg); background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%); color: var(--text-main); min-height: 100vh; padding: 16px; padding-bottom: 80px; }
+    body { font-family: -apple-system, sans-serif; background: var(--bg); background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%); color: var(--text-main); min-height: 100vh; padding: 16px; padding-bottom: 80px; }
     .container { max-width: 600px; margin: 0 auto; }
     .header { text-align: center; margin: 24px 0 32px 0; }
-    .badge { display: inline-block; padding: 4px 12px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 10px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-    .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .badge { display: inline-block; padding: 4px 12px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 10px; font-weight: 600; margin-bottom: 12px; }
+    .header h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
     .header p { font-size: 12px; color: var(--text-sub); }
     .card { background: var(--card-bg); backdrop-filter: blur(20px); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8); }
     .section-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-    input[type="text"], input[type="password"], select { width: 100%; padding: 14px 16px; border: 1px solid #e4e4e7; border-radius: 12px; font-size: 13px; margin-bottom: 12px; outline: none; background: white; color: var(--text-main); transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
-    input[type="range"] { width: 100%; accent-color: var(--accent); height: 4px; border-radius: 2px; margin: 12px 0; }
-    .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: transform 0.15s, opacity 0.15s; }
+    input[type="text"], input[type="password"], select, textarea { width: 100%; padding: 14px 16px; border: 1px solid #e4e4e7; border-radius: 12px; font-size: 13px; margin-bottom: 12px; outline: none; background: white; transition: all 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+    textarea { min-height: 80px; font-family: inherit; resize: vertical; }
+    input[type="range"] { width: 100%; accent-color: var(--accent); height: 4px; margin: 12px 0; }
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: all 0.15s; }
     .btn:active { transform: scale(0.98); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-dark { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .btn-light { background: white; color: var(--text-main); border: 1px solid #e4e4e7; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
-    .btn-blue { background: var(--blue-vibe); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
+    .btn-light { background: white; color: var(--text-main); border: 1px solid #e4e4e7; }
+    .btn-blue { background: var(--blue-vibe); color: white; }
     .row-2 { display: flex; gap: 10px; }
     .row-2 > * { flex: 1; }
+    
+    /* 固定词池 */
+    .pinned-pool { background: #fef3c7; border: 2px dashed #f59e0b; border-radius: 12px; padding: 12px; margin-bottom: 16px; min-height: 60px; }
+    .pinned-title { font-size: 11px; font-weight: 700; color: #92400e; margin-bottom: 8px; }
+    .pinned-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pinned-tag { padding: 6px 12px; background: #fbbf24; color: #78350f; border-radius: 16px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .unpin-btn { background: #78350f; color: white; border: none; padding: 2px 6px; border-radius: 8px; cursor: pointer; font-size: 9px; }
+    
     .drawer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-    .drawer-box { background: white; border: 1px solid #f4f4f5; border-radius: 14px; padding: 16px; text-align: left; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-    .drawer-box:active { background: #fafafa; border-color: #e4e4e7; }
+    .drawer-box { background: white; border: 1px solid #f4f4f5; border-radius: 14px; padding: 16px; cursor: pointer; transition: 0.2s; }
+    .drawer-box:active { background: #fafafa; }
     .drawer-name { font-size: 11px; font-weight: 600; color: var(--text-sub); margin-bottom: 4px; }
-    .drawer-count { font-size: 20px; font-weight: 800; color: var(--text-main); }
+    .drawer-count { font-size: 20px; font-weight: 800; }
+    
     .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-    .tag { padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; background: white; border: 1px solid #e4e4e7; color: var(--text-sub); cursor: pointer; transition: all 0.2s; }
-    .tag.active { background: var(--accent); color: white; border-color: var(--accent); }
-    .result-box { background: #fafafa; padding: 20px; border-radius: 16px; font-size: 13px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; word-break: break-all; min-height: 100px; border: 1px solid #e4e4e7; font-family: "SF Mono", monospace; }
-    .quality-check { margin-top: 12px; padding: 12px; background: #fef3c7; border: 1px solid #fbbf24; border-radius: 10px; font-size: 12px; display: none; }
-    .quality-check.pass { background: #d1fae5; border-color: #10b981; }
-    .quality-check.fail { background: #fee2e2; border-color: #ef4444; }
+    .tag { padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; background: white; border: 1px solid #e4e4e7; color: var(--text-sub); cursor: pointer; transition: 0.2s; }
+    .tag.active { background: var(--accent); color: white; }
+    
+    .result-box { background: #fafafa; padding: 20px; border-radius: 16px; font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-all; min-height: 100px; border: 1px solid #e4e4e7; }
+    .result-cn { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e4e4e7; color: #10b981; font-size: 12px; }
+    
+    .quality-check { margin-top: 12px; padding: 12px; border-radius: 10px; font-size: 12px; display: none; }
+    .quality-check.pass { background: #d1fae5; border: 1px solid #10b981; color: #065f46; }
+    .quality-check.fail { background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; }
+    .quality-check.retry { background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; }
+    
     .trace-toggle { font-size: 11px; color: var(--text-sub); cursor: pointer; text-align: center; margin-top: 16px; font-weight: 500; }
     .trace-box { margin-top: 12px; background: white; border: 1px solid #e4e4e7; border-radius: 12px; padding: 14px; display: none; }
-    .trace-item { font-size: 11px; color: var(--text-main); margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f4f4f5; }
-    .trace-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .trace-item { font-size: 11px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f4f4f5; }
     .trace-word { font-weight: 700; color: #3b82f6; display: block; margin-bottom: 4px; }
     .trace-cn { font-size: 10px; color: #10b981; display: block; margin-bottom: 4px; }
-    .trace-source { font-size: 9px; color: #f59e0b; background: #fef3c7; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
-    .trace-context { font-size: 10px; color: #71717a; font-style: italic; line-height: 1.4; }
+    
     input[type="file"] { display: none; }
     .tip { font-size: 11px; color: var(--text-sub); margin-bottom: 16px; line-height: 1.5; }
+    
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 999; justify-content: center; align-items: center; padding: 20px; }
     .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 24px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 16px; }
     .close-btn { background: #f4f4f5; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600;}
     .word-list { flex: 1; overflow-y: auto; }
-    .word-item { padding: 12px 0; border-bottom: 1px solid #f4f4f5; font-size: 13px; }
+    .word-item { padding: 12px 0; border-bottom: 1px solid #f4f4f5; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+    .word-item-left { flex: 1; }
     .word-item-en { font-weight: 600; color: #3b82f6; margin-bottom: 4px; }
     .word-item-cn { font-size: 11px; color: #10b981; margin-bottom: 6px; }
-    .word-item-src { font-size: 10px; color: #71717a; margin-bottom: 6px; }
-    .word-item-ctx { font-size: 10px; color: #a1a1aa; font-style: italic; line-height: 1.4; margin-bottom: 8px; }
+    .word-actions { display: flex; gap: 6px; }
+    .pin-btn { background: #fef3c7; color: #92400e; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600;}
     .del-btn { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600;}
   </style>
 </head>
@@ -69,9 +84,9 @@
 
   <div class="container">
     <div class="header">
-      <div class="badge">V5.1 QUALITY ASSURANCE EDITION</div>
+      <div class="badge">V5.2 DIRECTOR EDITION</div>
       <h1>AI 炼丹舱</h1>
-      <p>中英对照 · 段落溯源 · 自检质控</p>
+      <p>固定词锁定 · 自检重试 · 中文翻译</p>
     </div>
 
     <div class="row-2" style="margin-bottom: 16px;">
@@ -84,7 +99,7 @@
       <div class="section-title"><span>API 引擎</span></div>
       <select id="apiSelector" onchange="loadSelectedApi()"></select>
       <input type="text" id="apiAlias" placeholder="线路名称">
-      <input type="text" id="apiHost" placeholder="接口地址 (https://...)">
+      <input type="text" id="apiHost" placeholder="接口地址">
       <input type="password" id="apiKey" placeholder="API Key">
       <div class="row-2">
         <button class="btn btn-light" onclick="fetchModels()" id="fetchBtn">识别模型</button>
@@ -100,8 +115,18 @@
       <div class="section-title"><span>灵感数据库</span><span id="totalCount" style="font-size: 11px; color: #a1a1aa; font-weight: normal;">0 条</span></div>
       <p class="tip">导入 txt 原始咒语，AI 自动切词、翻译、溯源建库。</p>
       <div class="drawer-grid" id="drawerGrid"></div>
-      <button class="btn btn-dark" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">导入生肉 TXT (AI 全自动处理)</button>
+      <button class="btn btn-dark" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">导入生肉 TXT</button>
       <input type="file" id="batchFiles" multiple accept=".txt">
+    </div>
+
+    <!-- 固定词池 -->
+    <div class="card">
+      <div class="section-title">🔒 本次固定词池 <span style="font-size:10px;font-weight:normal;color:#92400e;">(点词库里的📌可固定)</span></div>
+      <div class="pinned-pool" id="pinnedPool">
+        <div class="pinned-title">当前固定: <span id="pinnedCount">0</span> 个词</div>
+        <div class="pinned-tags" id="pinnedTags"></div>
+      </div>
+      <button class="btn btn-light" onclick="clearPinned()">清空固定词</button>
     </div>
 
     <div class="card">
@@ -115,17 +140,17 @@
         <div class="tag" data-theme="战损">战损</div>
         <div class="tag" data-theme="极简">极简</div>
       </div>
-      <input type="text" id="customTheme" placeholder="或输入自定义主题...">
-      <button class="btn btn-blue" onclick="generateMagic()" id="genBtn">开始生成 & 自检</button>
+      <textarea id="customTheme" placeholder="输入详细要求（会根据你的要求创作性扩写，不只是组合词库）&#10;例如：古风侠客，必须有竹林背景，冷峻表情但眼神温柔"></textarea>
+      <button class="btn btn-blue" onclick="generateMagic()" id="genBtn">开始生成 (自检+翻译)</button>
     </div>
 
     <div class="card">
       <div class="section-title">最终咒语</div>
       <div class="result-box" id="resultBox">等待指令...</div>
       <div class="quality-check" id="qualityCheck"></div>
-      <div class="trace-toggle" onclick="toggleTrace()">查看灵感溯源成分 ▾</div>
+      <div class="trace-toggle" onclick="toggleTrace()">查看灵感溯源 ▾</div>
       <div class="trace-box" id="traceBox"><div id="traceContent"></div></div>
-      <button class="btn btn-dark" style="margin-top: 16px;" onclick="copyResult()">一键复制</button>
+      <button class="btn btn-dark" style="margin-top: 16px;" onclick="copyResult()">一键复制英文</button>
     </div>
   </div>
 
@@ -141,21 +166,21 @@
   </div>
 
   <script>
-    let dynamicLibrary = {}; let apiList = []; let currentApiId = null; let currentEditCategory = ''; let availableModels = []; let selectedTags = new Set();
+    let dynamicLibrary = {}; let apiList = []; let currentApiId = null; let currentEditCategory = ''; let availableModels = []; let selectedTags = new Set(); let pinnedWords = [];
 
     window.onload = () => {
-      const savedLib = localStorage.getItem('bear51_library');
+      const savedLib = localStorage.getItem('bear52_library');
       if (savedLib) { try { dynamicLibrary = JSON.parse(savedLib); } catch(e) {} }
-      const savedApis = localStorage.getItem('bear51_api_list');
+      const savedApis = localStorage.getItem('bear52_api_list');
       if (savedApis) { try { apiList = JSON.parse(savedApis); } catch(e) {} }
       if (apiList.length === 0) apiList.push({ id: Date.now(), name: '默认引擎', host: '', key: '', model: '', models: [] });
-      currentApiId = localStorage.getItem('bear51_current_api') || apiList[0].id;
-      renderApiSelector(); loadSelectedApi(); renderDrawers();
+      currentApiId = localStorage.getItem('bear52_current_api') || apiList[0].id;
+      renderApiSelector(); loadSelectedApi(); renderDrawers(); renderPinned();
       document.querySelectorAll('.tag').forEach(t => { t.addEventListener('click', function() { const theme = this.dataset.theme; if(selectedTags.has(theme)){ selectedTags.delete(theme); this.classList.remove('active'); } else{ selectedTags.add(theme); this.classList.add('active'); } }); });
     };
 
     function renderApiSelector() {
-      const selector = document.getElementById('apiSelector'); selector.innerHTML = '<option value="new">+ 新增线路</option>';
+      const selector = document.getElementById('apiSelector'); selector.innerHTML = '<option value="new">+ 新增</option>';
       apiList.forEach(api => { const opt = document.createElement('option'); opt.value = api.id; opt.innerText = api.name; if (api.id == currentApiId) opt.selected = true; selector.appendChild(opt); });
     }
 
@@ -171,14 +196,14 @@
           document.getElementById('apiAlias').value = api.name; document.getElementById('apiHost').value = api.host; document.getElementById('apiKey').value = api.key;
           if (api.models && api.models.length > 0) { availableModels = api.models; renderModelSelector(api.model); }
           else { document.getElementById('modelSelector').style.display = 'none'; }
-          localStorage.setItem('bear51_current_api', currentApiId);
+          localStorage.setItem('bear52_current_api', currentApiId);
         }
       }
     }
 
     async function fetchModels() {
       const host = document.getElementById('apiHost').value.trim(), key = document.getElementById('apiKey').value.trim();
-      if (!host || !key) return alert("请填写地址和Key！");
+      if (!host || !key) return alert("请填写！");
       const btn = document.getElementById('fetchBtn'); btn.innerText = "识别中..."; btn.disabled = true;
       try {
         const res = await fetch(`${host}/models`, { headers: { 'Authorization': `Bearer ${key}` } });
@@ -186,12 +211,12 @@
         const data = await res.json();
         availableModels = (data.data && Array.isArray(data.data)) ? data.data.map(m => m.id) : (Array.isArray(data) ? data.map(m => m.id || m) : []);
         if (availableModels.length === 0) throw new Error("空");
-        renderModelSelector(); alert(`获取 ${availableModels.length} 个模型！`);
-      } catch (err) { alert("识别失败。"); } finally { btn.innerText = "识别模型"; btn.disabled = false; }
+        renderModelSelector(); alert(`获取 ${availableModels.length} 个！`);
+      } catch (err) { alert("失败"); } finally { btn.innerText = "识别模型"; btn.disabled = false; }
     }
 
     function renderModelSelector(selectedModel) {
-      const selector = document.getElementById('modelSelector'); selector.innerHTML = '<option value="">-- 选择 --</option>';
+      const selector = document.getElementById('modelSelector'); selector.innerHTML = '<option value="">选择</option>';
       availableModels.forEach(m => { const opt = document.createElement('option'); opt.value = m; opt.innerText = m; if (m === selectedModel) opt.selected = true; selector.appendChild(opt); });
       selector.style.display = 'block';
     }
@@ -203,7 +228,7 @@
       const idx = apiList.findIndex(a => a.id === currentApiId);
       if (idx >= 0) apiList[idx] = { id: currentApiId, name, host, key, model, models: availableModels };
       else apiList.push({ id: currentApiId, name, host, key, model, models: availableModels });
-      localStorage.setItem('bear51_api_list', JSON.stringify(apiList)); localStorage.setItem('bear51_current_api', currentApiId);
+      localStorage.setItem('bear52_api_list', JSON.stringify(apiList)); localStorage.setItem('bear52_current_api', currentApiId);
       renderApiSelector(); alert("✅ 保存！");
     }
 
@@ -211,7 +236,7 @@
       if (apiList.length <= 1) return alert("保留一条！");
       if (confirm("删除？")) {
         apiList = apiList.filter(a => a.id !== currentApiId); currentApiId = apiList[0].id;
-        localStorage.setItem('bear51_api_list', JSON.stringify(apiList)); localStorage.setItem('bear51_current_api', currentApiId);
+        localStorage.setItem('bear52_api_list', JSON.stringify(apiList)); localStorage.setItem('bear52_current_api', currentApiId);
         renderApiSelector(); loadSelectedApi();
       }
     }
@@ -232,21 +257,59 @@
       const list = document.getElementById('modalList'); list.innerHTML = '';
       dynamicLibrary[currentEditCategory].forEach((item, idx) => {
         const div = document.createElement('div'); div.className = 'word-item';
+        const isPinned = pinnedWords.some(p => p.text === item.text);
         div.innerHTML = `
-          <div class="word-item-en">${item.text}</div>
-          <div class="word-item-cn">中文: ${item.translation || '未翻译'}</div>
-          <div class="word-item-src">来源: ${item.source}</div>
-          <div class="word-item-ctx">段落: ${item.context || '无上下文'}</div>
-          <button class="del-btn" onclick="deleteWord(${idx})">删</button>
+          <div class="word-item-left">
+            <div class="word-item-en">${item.text}</div>
+            <div class="word-item-cn">中文: ${item.translation || '无'}</div>
+          </div>
+          <div class="word-actions">
+            <button class="pin-btn" onclick="togglePin('${item.text.replace(/'/g, "\\'")}', '${(item.translation || '').replace(/'/g, "\\'")}', ${idx})">${isPinned ? '取消📌' : '固定📌'}</button>
+            <button class="del-btn" onclick="deleteWord(${idx})">删</button>
+          </div>
         `;
         list.appendChild(div);
       });
     }
 
+    function togglePin(text, translation, idx) {
+      const existing = pinnedWords.findIndex(p => p.text === text);
+      if (existing >= 0) {
+        pinnedWords.splice(existing, 1);
+      } else {
+        pinnedWords.push({ text, translation });
+      }
+      renderPinned(); renderWordList();
+    }
+
+    function renderPinned() {
+      const container = document.getElementById('pinnedTags'); container.innerHTML = '';
+      document.getElementById('pinnedCount').innerText = pinnedWords.length;
+      if (pinnedWords.length === 0) {
+        container.innerHTML = '<span style="font-size:11px;color:#92400e;">暂无固定词</span>';
+      } else {
+        pinnedWords.forEach((word, idx) => {
+          const tag = document.createElement('div'); tag.className = 'pinned-tag';
+          tag.innerHTML = `${word.text} <button class="unpin-btn" onclick="unpinWord(${idx})">×</button>`;
+          container.appendChild(tag);
+        });
+      }
+    }
+
+    function unpinWord(idx) {
+      pinnedWords.splice(idx, 1); renderPinned(); if(currentEditCategory) renderWordList();
+    }
+
+    function clearPinned() {
+      pinnedWords = []; renderPinned(); if(currentEditCategory) renderWordList();
+    }
+
     function deleteWord(idx) {
+      const word = dynamicLibrary[currentEditCategory][idx];
+      pinnedWords = pinnedWords.filter(p => p.text !== word.text);
       dynamicLibrary[currentEditCategory].splice(idx, 1);
       if(dynamicLibrary[currentEditCategory].length === 0) delete dynamicLibrary[currentEditCategory];
-      localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers();
+      localStorage.setItem('bear52_library', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers(); renderPinned();
       if(!dynamicLibrary[currentEditCategory]) document.getElementById('libModal').style.display='none';
     }
 
@@ -254,33 +317,20 @@
       const val = document.getElementById('newWordInput').value.trim(); if(!val) return;
       if (!dynamicLibrary[currentEditCategory].some(w => w.text === val)) {
         dynamicLibrary[currentEditCategory].push({ text: val, translation: '手动添加', source: '手动', context: '' });
-        localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers(); document.getElementById('newWordInput').value = '';
+        localStorage.setItem('bear52_library', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers(); document.getElementById('newWordInput').value = '';
       }
     }
 
     document.getElementById('batchFiles').addEventListener('change', async function(e) {
       const files = Array.from(e.target.files); if (files.length === 0) return;
       const api = apiList.find(a => a.id === currentApiId);
-      if (!api || !api.host || !api.key || !api.model) return alert("请配置API！");
-      const btn = document.getElementById('uploadBtn'); btn.innerText = "AI处理中 (耗时较长)..."; btn.disabled = true;
+      if (!api || !api.host || !api.key || !api.model) return alert("配置API！");
+      const btn = document.getElementById('uploadBtn'); btn.innerText = "AI处理中..."; btn.disabled = true;
       try {
         for (let file of files) {
           const sourceName = file.name;
           const text = await new Promise(r => { const rd = new FileReader(); rd.onload=e=>r(e.target.result); rd.readAsText(file); });
-          
-          // 第一步：AI切词、分类、翻译、保留上下文
-          const sysPrompt = `你是提示词分析专家。我给你英文AI绘图提示词，请：
-1. 提取有价值的英文短语
-2. 为每个短语提供中文翻译
-3. 保留每个短语的原始上下文（前后20字符）
-4. 自动分类
-
-严格输出JSON格式：
-{
-  "服装": [{"en": "dark silk robes", "cn": "黑色丝绸长袍", "context": "...wearing dark silk robes under..."}],
-  "光影": [{"en": "cinematic lighting", "cn": "电影般的光影", "context": "...with cinematic lighting effect..."}]
-}`;
-          
+          const sysPrompt = `提取英文短语，提供中文翻译，保留上下文。JSON格式：{"服装": [{"en": "dark silk", "cn": "黑丝绸", "context": "..."}]}`;
           const res = await fetch(`${api.host}/chat/completions`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
             body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": sysPrompt},{"role": "user", "content": text}], temperature: 0.3 })
@@ -293,20 +343,14 @@
               if (!dynamicLibrary[cat]) dynamicLibrary[cat] = [];
               parsed[cat].forEach(item => {
                 if (!dynamicLibrary[cat].some(i => i.text === item.en)) {
-                  dynamicLibrary[cat].push({ 
-                    text: item.en, 
-                    translation: item.cn, 
-                    source: sourceName, 
-                    context: item.context || '' 
-                  });
+                  dynamicLibrary[cat].push({ text: item.en, translation: item.cn, source: sourceName, context: item.context || '' });
                 }
               });
             });
           }
         }
-        localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); renderDrawers(); alert("✅ 完成！");
-      } catch (err) { alert("失败：" + err.message); } 
-      finally { btn.innerText = "导入生肉 TXT"; btn.disabled = false; e.target.value = ''; }
+        localStorage.setItem('bear52_library', JSON.stringify(dynamicLibrary)); renderDrawers(); alert("✅ 完成！");
+      } catch (err) { alert("失败"); } finally { btn.innerText = "导入生肉 TXT"; btn.disabled = false; e.target.value = ''; }
     });
 
     function toggleTrace() {
@@ -316,92 +360,115 @@
     async function generateMagic() {
       const api = apiList.find(a => a.id === currentApiId);
       if (!api || !api.host || !api.key || !api.model) return alert("配置API！");
-      const cats = Object.keys(dynamicLibrary); if (cats.length === 0) return alert("词库空！");
+      const cats = Object.keys(dynamicLibrary);
       const themes = [...selectedTags].concat(document.getElementById('customTheme').value.trim().split(/[,，]/)).filter(t => t);
-      const theme = themes.join('、') || '高冷神颜';
+      const theme = document.getElementById('customTheme').value.trim() || themes.join('、') || '高冷神颜';
       const batchCount = parseInt(document.getElementById('batchCount').value);
       const btn = document.getElementById('genBtn'); btn.innerText = "生成中..."; btn.disabled = true;
 
-      let allTraces = []; let promptContent = `主题：${theme}\n生成 ${batchCount} 条完全不同的英文 Prompt。\n\n`;
-      for(let i=0; i<batchCount; i++) {
-        let cg = [];
-        cats.forEach(c => { if (dynamicLibrary[c].length > 0) { const shuf = [...dynamicLibrary[c]].sort(()=>0.5-Math.random()); cg.push(shuf[0]); allTraces.push(shuf[0]); } });
-        promptContent += `第${i+1}条参考词：${cg.map(o=>o.text).join(', ')}\n`;
+      let maxRetries = 3; let currentTry = 0; let finalResult = ''; let passed = false;
+
+      while (currentTry < maxRetries && !passed) {
+        currentTry++;
+        const qualityBox = document.getElementById('qualityCheck');
+        if (currentTry > 1) {
+          qualityBox.className = 'quality-check retry'; qualityBox.style.display = 'block';
+          qualityBox.innerHTML = `⏳ 第 ${currentTry} 次尝试重新生成中...`;
+        }
+
+        let allTraces = []; let promptContent = `主题要求：${theme}\n生成 ${batchCount} 条完全不同的英文 Midjourney Prompt。\n\n`;
+        
+        // 固定词
+        if (pinnedWords.length > 0) {
+          promptContent += `【必须包含的固定元素】：${pinnedWords.map(p => p.text).join(', ')}\n\n`;
+        }
+
+        // 随机词
+        promptContent += `【灵感参考词汇】（仅作参考，你需要创作性地扩写成完整场景）：\n`;
+        for(let i=0; i<batchCount; i++) {
+          let cg = [...pinnedWords];
+          cats.forEach(c => { if (dynamicLibrary[c].length > 0) { const shuf = [...dynamicLibrary[c]].sort(()=>0.5-Math.random()); cg.push(shuf[0]); } });
+          allTraces.push(...cg);
+          promptContent += `第${i+1}条参考词：${cg.map(o=>o.text).join(', ')}\n`;
+        }
+
+        const tCon = document.getElementById('traceContent'); tCon.innerHTML = '';
+        allTraces.forEach(obj => {
+          const div = document.createElement('div'); div.className = 'trace-item';
+          div.innerHTML = `<span class="trace-word">${obj.text}</span><span class="trace-cn">${obj.translation || ''}</span>`;
+          tCon.appendChild(div);
+        });
+
+        try {
+          const res = await fetch(`${api.host}/chat/completions`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
+            body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `你是顶级 Midjourney 大师。根据主题和参考词，创作性地扩写成完整的电影级场景描述。不要只是罗列词汇，要有逻辑、有画面感、有细节。每段用两个换行符隔开。`},{"role": "user", "content": promptContent}], temperature: 0.85 })
+          });
+          const resData = await res.json();
+          if (resData.choices && resData.choices[0]) {
+            const rawResult = resData.choices[0].message.content;
+            finalResult = rawResult.split('\n\n').map(l => l.trim() + " --style raw --s 250").join('\n\n\n');
+            
+            // 质检
+            btn.innerText = "质检中...";
+            const checkPrompt = `你是质量检查员。用户要求："${theme}"。生成的prompt：\n${finalResult}\n\n判断：1.是否符合主题？2.逻辑是否自洽？3.有无明显错误？\n输出：PASS 或 FAIL\n理由：`;
+            const checkRes = await fetch(`${api.host}/chat/completions`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
+              body: JSON.stringify({ model: api.model, messages: [{"role": "user", "content": checkPrompt}], temperature: 0.3 })
+            });
+            const checkData = await checkRes.json();
+            const checkResult = checkData.choices[0].message.content;
+            
+            if (checkResult.toUpperCase().includes('PASS')) {
+              passed = true;
+              qualityBox.className = 'quality-check pass'; qualityBox.style.display = 'block';
+              qualityBox.innerHTML = `✅ 质检通过 (第${currentTry}次尝试)<br>${checkResult}`;
+            } else if (currentTry < maxRetries) {
+              qualityBox.className = 'quality-check fail'; qualityBox.style.display = 'block';
+              qualityBox.innerHTML = `⚠️ 质检未通过，正在重试...<br>${checkResult}`;
+              await new Promise(r => setTimeout(r, 1000));
+            } else {
+              qualityBox.className = 'quality-check fail'; qualityBox.style.display = 'block';
+              qualityBox.innerHTML = `❌ 已尝试${maxRetries}次仍未通过<br>${checkResult}`;
+            }
+          }
+        } catch (err) { 
+          alert("失败：" + err.message); 
+          btn.innerText = "开始生成"; btn.disabled = false; 
+          return;
+        }
       }
 
-      // 渲染溯源（带翻译和段落）
-      const tCon = document.getElementById('traceContent'); tCon.innerHTML = '';
-      allTraces.forEach(obj => {
-        const div = document.createElement('div'); div.className = 'trace-item';
-        div.innerHTML = `
-          <span class="trace-word">${obj.text}</span>
-          <span class="trace-cn">中文: ${obj.translation || '无'}</span>
-          <span class="trace-source">来自: ${obj.source}</span>
-          <div class="trace-context">段落: ${obj.context || '无上下文'}</div>
-        `;
-        tCon.appendChild(div);
-      });
-
+      // 翻译
+      btn.innerText = "翻译中...";
       try {
-        // 生成Prompt
-        const res = await fetch(`${api.host}/chat/completions`, {
+        const transRes = await fetch(`${api.host}/chat/completions`, {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
-          body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `融合生成极具电影感的英文 Prompt，每段用两个换行符隔开。不要解释。`},{"role": "user", "content": promptContent}], temperature: 0.8 })
+          body: JSON.stringify({ model: api.model, messages: [{"role": "user", "content": `请把以下英文Midjourney提示词翻译成中文：\n\n${finalResult}`}], temperature: 0.3 })
         });
-        const resData = await res.json();
-        if (resData.choices && resData.choices[0]) {
-          const rawResult = resData.choices[0].message.content;
-          const finalResult = rawResult.split('\n\n').map(l => l.trim() + " --style raw --s 250").join('\n\n\n');
-          document.getElementById('resultBox').innerText = finalResult;
+        const transData = await transRes.json();
+        const cnResult = transData.choices[0].message.content;
+        
+        document.getElementById('resultBox').innerHTML = `<div style="color:#3b82f6;font-weight:600;margin-bottom:8px;">🇬🇧 英文原文：</div>${finalResult}<div class="result-cn">🇨🇳 中文翻译：<br>${cnResult}</div>`;
+      } catch (err) {
+        document.getElementById('resultBox').innerText = finalResult;
+      }
 
-          // 自检质量
-          btn.innerText = "自检质控中...";
-          const checkPrompt = `你是质量检查专家。用户要求生成主题为"${theme}"的Midjourney提示词。
-请检查以下生成的prompt是否符合要求：
-
-${finalResult}
-
-请判断：
-1. 是否符合"${theme}"主题？
-2. 逻辑是否自洽？
-3. 有无明显错误（如古风中出现星际元素）？
-
-输出格式：
-PASS/FAIL
-理由：xxx`;
-
-          const checkRes = await fetch(`${api.host}/chat/completions`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
-            body: JSON.stringify({ model: api.model, messages: [{"role": "user", "content": checkPrompt}], temperature: 0.3 })
-          });
-          const checkData = await checkRes.json();
-          const checkResult = checkData.choices[0].message.content;
-          
-          const qualityBox = document.getElementById('qualityCheck');
-          qualityBox.style.display = 'block';
-          if (checkResult.toUpperCase().includes('PASS')) {
-            qualityBox.className = 'quality-check pass';
-            qualityBox.innerHTML = `✅ 质检通过<br>${checkResult}`;
-          } else {
-            qualityBox.className = 'quality-check fail';
-            qualityBox.innerHTML = `⚠️ 质检警告<br>${checkResult}`;
-          }
-        } else { document.getElementById('resultBox').innerText = "❌ 错误"; }
-      } catch (err) { document.getElementById('resultBox').innerText = "❌ 失败：" + err.message; } 
-      finally { btn.innerText = "开始生成 & 自检"; btn.disabled = false; }
+      btn.innerText = "开始生成 (自检+翻译)"; btn.disabled = false;
     }
 
     function copyResult() {
-      const text = document.getElementById('resultBox').innerText;
+      const box = document.getElementById('resultBox');
+      const text = box.innerText.split('🇨🇳 中文翻译：')[0].replace('🇬🇧 英文原文：', '').trim();
       if (text === '等待指令...') return;
-      navigator.clipboard.writeText(text).then(() => alert("✅ 已复制！"));
+      navigator.clipboard.writeText(text).then(() => alert("✅ 已复制英文！"));
     }
 
     function exportData() {
-      const data = { apiList: apiList, currentApiId: currentApiId, library: dynamicLibrary };
+      const data = { apiList, currentApiId, library: dynamicLibrary, pinnedWords };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-      a.download = `小熊炼丹机_${new Date().getTime()}.json`;
+      a.download = `炼丹机_${new Date().getTime()}.json`;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
     }
 
@@ -411,9 +478,10 @@ PASS/FAIL
       reader.onload = function(e) {
         try {
           const data = JSON.parse(e.target.result);
-          if (data.apiList) { apiList = data.apiList; localStorage.setItem('bear51_api_list', JSON.stringify(apiList)); }
-          if (data.currentApiId) { currentApiId = data.currentApiId; localStorage.setItem('bear51_current_api', currentApiId); }
-          if (data.library) { dynamicLibrary = data.library; localStorage.setItem('bear51_library', JSON.stringify(dynamicLibrary)); }
+          if (data.apiList) { apiList = data.apiList; localStorage.setItem('bear52_api_list', JSON.stringify(apiList)); }
+          if (data.currentApiId) { currentApiId = data.currentApiId; localStorage.setItem('bear52_current_api', currentApiId); }
+          if (data.library) { dynamicLibrary = data.library; localStorage.setItem('bear52_library', JSON.stringify(dynamicLibrary)); }
+          if (data.pinnedWords) { pinnedWords = data.pinnedWords; }
           alert("✅ 恢复成功！"); location.reload();
         } catch (err) { alert("❌ 格式错误！"); }
       };
