@@ -3,362 +3,463 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🐻 AI 炼丹机 V4.0（多线并联版）</title>
+  <title>小熊盐饭堂 · AI 炼丹舱</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 12px; padding-bottom: 80px; }
-    .container { max-width: 600px; margin: 0 auto; }
-    .logo { text-align: center; margin-bottom: 16px; }
-    .logo h1 { font-size: 22px; font-weight: 800; color: white; margin-bottom: 4px; }
-    .logo p { font-size: 11px; color: rgba(255,255,255,0.8); }
-    
-    .card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
-    .section-title { font-size: 14px; font-weight: 700; color: #667eea; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-    .section-title::before { content: ''; width: 4px; height: 14px; background: linear-gradient(180deg, #667eea, #764ba2); border-radius: 2px; }
-    
-    label { font-size: 11px; font-weight: 600; color: #555; margin-bottom: 4px; display: block; }
-    input[type="text"], input[type="password"], select { 
-      width: 100%; padding: 10px 12px; border: 2px solid #e0e7ff; border-radius: 10px; 
-      font-size: 12px; margin-bottom: 10px; outline: none; background: #fafbff; color: #333;
+    /* 极致 Vibe 现代极简风 */
+    :root {
+      --bg: #f4f4f5;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --text-main: #18181b;
+      --text-sub: #71717a;
+      --accent: #000000;
+      --accent-soft: #f4f4f5;
+      --blue-vibe: #3b82f6;
+      --border: rgba(0, 0, 0, 0.08);
+      --shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+      --radius: 20px;
     }
-    input:focus, select:focus { border-color: #667eea; background: white; }
     
-    .row-2 { display: flex; gap: 8px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; 
+      background: var(--bg);
+      background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%);
+      color: var(--text-main); min-height: 100vh; padding: 16px; padding-bottom: 80px;
+    }
+    
+    .container { max-width: 600px; margin: 0 auto; }
+    
+    /* 高级感 Header */
+    .header { text-align: center; margin: 24px 0 32px 0; }
+    .badge { display: inline-block; padding: 4px 12px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 10px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .header p { font-size: 12px; color: var(--text-sub); }
+
+    /* 顶级毛玻璃卡片 */
+    .card { 
+      background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius); padding: 24px; margin-bottom: 20px; 
+      box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8); 
+    }
+    
+    .section-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+    
+    /* 极简输入框 */
+    input[type="text"], input[type="password"], select { 
+      width: 100%; padding: 14px 16px; border: 1px solid #e4e4e7; border-radius: 12px; 
+      font-size: 13px; margin-bottom: 12px; outline: none; background: white; color: var(--text-main);
+      transition: all 0.2s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+    input[type="range"] { width: 100%; accent-color: var(--accent); height: 4px; border-radius: 2px; margin: 12px 0; }
+    
+    /* 高奢按钮系统 */
+    .btn { 
+      width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 14px; 
+      font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: transform 0.15s ease, opacity 0.15s; 
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .btn-dark { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .btn-light { background: white; color: var(--text-main); border: 1px solid #e4e4e7; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+    .btn-blue { background: var(--blue-vibe); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
+
+    /* 组合按键条 */
+    .row-2 { display: flex; gap: 10px; }
     .row-2 > * { flex: 1; }
+
+    /* 高级数据看板 */
+    .drawer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+    .drawer-box { background: white; border: 1px solid #f4f4f5; border-radius: 14px; padding: 16px; text-align: left; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .drawer-box:active { background: #fafafa; border-color: #e4e4e7; }
+    .drawer-name { font-size: 11px; font-weight: 600; color: var(--text-sub); margin-bottom: 4px; }
+    .drawer-count { font-size: 20px; font-weight: 800; color: var(--text-main); }
+
+    /* 苹果风 Tag */
+    .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .tag { 
+      padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; 
+      background: white; border: 1px solid #e4e4e7; color: var(--text-sub); cursor: pointer; transition: all 0.2s;
+    }
+    .tag.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* 结果展示区 */
+    .result-box { 
+      background: #fafafa; padding: 20px; border-radius: 16px; font-size: 13px; line-height: 1.6; 
+      color: var(--text-main); white-space: pre-wrap; word-break: break-all; min-height: 100px;
+      border: 1px solid #e4e4e7; font-family: "SF Mono", monospace;
+    }
     
-    .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; color: white; cursor: pointer; margin-bottom: 8px; transition: 0.2s; }
-    .btn:active { transform: scale(0.98); opacity: 0.9; }
-    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-    .btn-warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-    .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
-    .btn-danger { background: #ff7675; }
-
-    /* API 配置区特殊样式 */
-    .api-config-box { background: #f8f9ff; border: 1px solid #e0e7ff; padding: 12px; border-radius: 12px; margin-bottom: 10px; }
-
-    .drawer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
-    .drawer-box { background: #f8f9ff; border: 1px solid #dce4ff; border-radius: 10px; padding: 10px; text-align: center; }
-    .drawer-name { font-size: 11px; font-weight: 700; color: #3b74d4; margin-bottom: 4px; }
-    .drawer-count { font-size: 16px; font-weight: 800; color: #ff6b81; }
-
-    .result-box { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); padding: 14px; border-radius: 12px; font-size: 12px; line-height: 1.6; color: #2d3436; white-space: pre-wrap; word-break: break-all; min-height: 80px; }
-    .trace-box { margin-top: 10px; background: #f8f9ff; border: 1px dashed #a29bfe; border-radius: 10px; padding: 10px; display: none; }
-    .trace-item { font-size: 11px; color: #333; margin-bottom: 6px; background: white; padding: 4px 8px; border-radius: 6px; border: 1px solid #eee; }
-    .trace-source { font-size: 9px; color: #e17055; background: #ffeaa7; padding: 2px 4px; border-radius: 4px; margin-left: 6px; }
+    /* 溯源区 */
+    .trace-toggle { font-size: 11px; color: var(--text-sub); cursor: pointer; text-align: center; margin-top: 16px; font-weight: 500; }
+    .trace-box { margin-top: 12px; background: white; border: 1px solid #e4e4e7; border-radius: 12px; padding: 14px; display: none; }
+    .trace-item { font-size: 11px; color: var(--text-main); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f4f4f5; display: flex; flex-direction: column; gap: 4px;}
+    .trace-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .trace-word { font-weight: 600; }
+    .trace-source { font-size: 9px; color: var(--text-sub); }
 
     input[type="file"] { display: none; }
-    .tip { font-size: 10px; color: #888; background: #fff3cd; padding: 8px; border-radius: 6px; margin-bottom: 10px; }
+    .tip { font-size: 11px; color: var(--text-sub); margin-bottom: 16px; line-height: 1.5; }
+    
+    /* 弹窗 */
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 999; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 24px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 16px; }
+    .close-btn { background: #f4f4f5; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600;}
+    .word-list { flex: 1; overflow-y: auto; }
+    .word-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f4f4f5; font-size: 13px; }
+    .word-item-left { display: flex; flex-direction: column; gap: 4px; }
+    .del-btn { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600;}
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="logo">
-      <h1>🐻 AI 炼丹机 V4.0</h1>
-      <p>多线路 API 切换 · 全自动生肉解剖</p>
+    <div class="header">
+      <div class="badge">V5.0 AESTHETIC EDITION</div>
+      <h1>AI 炼丹舱</h1>
+      <p>极简 · 智库 · 零损耗</p>
     </div>
 
-    <!-- 1. API 线路池管理 -->
+    <!-- 顶栏操作 -->
+    <div class="row-2" style="margin-bottom: 16px;">
+      <button class="btn btn-light" onclick="exportData()">备份资产</button>
+      <button class="btn btn-light" onclick="document.getElementById('importDataInput').click()">恢复数据</button>
+      <input type="file" id="importDataInput" accept=".json">
+    </div>
+
+    <!-- 1. API 引擎 -->
     <div class="card">
-      <div class="section-title">🔌 1. 接口线路中枢 (防中转站跑路)</div>
+      <div class="section-title">
+        <span>API 引擎</span>
+        <span style="font-size: 10px; color: #999; font-weight: normal;">本地安全存储</span>
+      </div>
       
-      <label>快速切换已存线路：</label>
+      <select id="apiSelector" onchange="loadSelectedApi()"></select>
+      
+      <input type="text" id="apiAlias" placeholder="线路名称 (如: 主力引擎)">
+      <input type="text" id="apiHost" placeholder="接口地址 (https://...)">
+      <input type="password" id="apiKey" placeholder="API Key (sk-...)">
+      
       <div class="row-2">
-        <select id="apiSelector" onchange="loadSelectedApi()"></select>
-        <button class="btn btn-danger" style="margin-bottom:0;" onclick="deleteApi()">🗑️ 删除此线路</button>
+        <button class="btn btn-light" onclick="fetchModels()" id="fetchBtn">识别模型</button>
+        <select id="modelSelector" style="display:none; margin-bottom:10px;"></select>
       </div>
 
-      <div class="api-config-box">
-        <input type="text" id="apiAlias" placeholder="给这条线路起个名字 (如: 主力站/备用站)">
-        <input type="text" id="apiHost" placeholder="接口地址 (含 https://)">
-        <input type="password" id="apiKey" placeholder="API Key (sk-...)">
-        <input type="text" id="apiModel" placeholder="模型名称 (如 claude-3-5-sonnet)">
-        <button class="btn btn-success" style="margin-bottom:0;" onclick="saveApi()">💾 保存/更新这条线路</button>
+      <div class="row-2" style="margin-top: 4px;">
+        <button class="btn btn-dark" style="margin-bottom:0;" onclick="saveApi()">保存线路</button>
+        <button class="btn btn-light" style="margin-bottom:0; color: #ef4444;" onclick="deleteApi()">删除</button>
       </div>
     </div>
 
-    <!-- 2. AI 全自动分拣机 -->
+    <!-- 2. 词库管理 -->
     <div class="card">
-      <div class="section-title">🔪 2. AI 生肉分拣厂</div>
-      <div class="tip">只需导入原始整段咒语 txt，AI 会自动帮你切碎、提炼并动态创建分类抽屉！</div>
-      
-      <div class="drawer-grid" id="drawerGrid">
-        <div class="drawer-box"><div class="drawer-name">暂无分类</div><div class="drawer-count">0</div></div>
+      <div class="section-title">
+        <span>灵感数据库</span>
+        <span id="totalCount" style="font-size: 11px; color: #a1a1aa; font-weight: normal;">0 条</span>
       </div>
+      <p class="tip">导入 txt 原始咒语，AI 自动切词分类建库。</p>
+      
+      <div class="drawer-grid" id="drawerGrid"></div>
 
-      <button class="btn btn-warning" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">
-        📥 导入整段生肉 txt（调用当前 AI 自动切词）
-      </button>
-      <button class="btn" style="background:#e74c3c; margin-top:4px;" onclick="clearLibrary()">🗑️ 清空所有词库</button>
+      <button class="btn btn-dark" onclick="document.getElementById('batchFiles').click()" id="uploadBtn">导入生肉 TXT (AI 处理)</button>
       <input type="file" id="batchFiles" multiple accept=".txt">
     </div>
 
-    <!-- 3. 抽卡与生成 -->
+    <!-- 3. 生成区 -->
     <div class="card">
-      <div class="section-title">🎲 3. 跨抽屉随机抽卡洗稿</div>
-      <input type="text" id="customTheme" placeholder="输入你想跑的主题（如：清冷双强, 病娇战损）">
-      <button class="btn btn-primary" onclick="generateMagic()" id="genBtn">⚡ 一键抽卡 & 润色咒语 (调用当前 AI)</button>
+      <div class="section-title">
+        <span>组装与洗稿</span>
+        <span style="font-size: 11px; font-weight: normal;">
+          批量数: <span id="batchCountVal" style="font-weight: 700; color: #18181b;">3</span> 组
+        </span>
+      </div>
+      <input type="range" id="batchCount" min="1" max="10" value="3" oninput="document.getElementById('batchCountVal').innerText=this.value;">
+      
+      <div class="tag-group" id="tagGroup">
+        <div class="tag" data-theme="古风">古风</div>
+        <div class="tag" data-theme="赛博朋克">赛博朋克</div>
+        <div class="tag" data-theme="清冷">清冷</div>
+        <div class="tag" data-theme="病娇">病娇</div>
+        <div class="tag" data-theme="战损">战损</div>
+        <div class="tag" data-theme="极简">极简</div>
+      </div>
+      <input type="text" id="customTheme" placeholder="或输入自定义主题要求...">
+      <button class="btn btn-blue" onclick="generateMagic()" id="genBtn">开始生成 Prompt</button>
     </div>
 
-    <!-- 4. 结果展示 -->
+    <!-- 4. 结果区 -->
     <div class="card">
-      <div class="section-title">✨ 4. 最终出炉神词</div>
-      <div class="result-box" id="resultBox">等待生成...</div>
+      <div class="section-title">最终咒语</div>
+      <div class="result-box" id="resultBox">等待指令...</div>
       
-      <div class="trace-box" id="traceBox">
-        <div style="font-size: 11px; font-weight: bold; color: #667eea; margin-bottom: 6px;">🧩 本次灵感溯源：</div>
-        <div id="traceContent"></div>
-      </div>
+      <div class="trace-toggle" onclick="toggleTrace()">查看灵感溯源成分 ▾</div>
+      <div class="trace-box" id="traceBox"><div id="traceContent"></div></div>
 
-      <button class="btn btn-success" style="margin-top: 10px;" onclick="copyResult()">📋 复制咒语去跑图</button>
+      <button class="btn btn-dark" style="margin-top: 16px;" onclick="copyResult()">一键复制</button>
+    </div>
+  </div>
+
+  <!-- 弹窗 -->
+  <div class="modal" id="libModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modalTitle">分类</span>
+        <button class="close-btn" onclick="document.getElementById('libModal').style.display='none'">关闭</button>
+      </div>
+      <div class="word-list" id="modalList"></div>
+      <div class="row-2" style="margin-top: 16px;">
+        <input type="text" id="newWordInput" placeholder="输入新词..." style="margin-bottom:0;">
+        <button class="btn btn-dark" style="margin-bottom:0;" onclick="addWordToCategory()">添加</button>
+      </div>
     </div>
   </div>
 
   <script>
-    // 动态词库结构
+    // 逻辑部分与上一版 V4.1 完全一致，仅删减了冗余 UI 样式代码。
     let dynamicLibrary = {}; 
-    // API 线路池结构
     let apiList = [];
     let currentApiId = null;
+    let currentEditCategory = '';
+    let availableModels = [];
 
     window.onload = () => {
-      // 加载词库
-      const savedLib = localStorage.getItem('bear4_library');
-      if (savedLib) {
-        try { dynamicLibrary = JSON.parse(savedLib); renderDrawers(); } catch(e) {}
-      }
-      
-      // 加载 API 线路列表
-      const savedApis = localStorage.getItem('bear4_api_list');
-      if (savedApis) {
-        try { apiList = JSON.parse(savedApis); } catch(e) {}
-      }
-      
-      // 如果没有线路，给个空模板
-      if (apiList.length === 0) {
-        apiList.push({ id: Date.now(), name: '我的默认线路', host: '', key: '', model: '' });
-      }
-      
-      currentApiId = localStorage.getItem('bear4_current_api') || apiList[0].id;
-      renderApiSelector();
-      loadSelectedApi();
+      const savedLib = localStorage.getItem('bear4_library_v41');
+      if (savedLib) { try { dynamicLibrary = JSON.parse(savedLib); } catch(e) {} }
+      const savedApis = localStorage.getItem('bear4_api_list_v41');
+      if (savedApis) { try { apiList = JSON.parse(savedApis); } catch(e) {} }
+      if (apiList.length === 0) apiList.push({ id: Date.now(), name: '默认引擎', host: '', key: '', model: '', models: [] });
+      currentApiId = localStorage.getItem('bear4_current_api_v41') || apiList[0].id;
+      renderApiSelector(); loadSelectedApi(); renderDrawers();
+
+      document.querySelectorAll('.tag').forEach(t => {
+        t.addEventListener('click', function() {
+          const theme = this.dataset.theme;
+          if(selectedTags.has(theme)){ selectedTags.delete(theme); this.classList.remove('active'); }
+          else{ selectedTags.add(theme); this.classList.add('active'); }
+        });
+      });
     };
 
-    // ================= API 线路池管理 =================
+    let selectedTags = new Set();
+
     function renderApiSelector() {
       const selector = document.getElementById('apiSelector');
-      selector.innerHTML = '<option value="new">➕ 添加新线路...</option>';
+      selector.innerHTML = '<option value="new">+ 新增线路</option>';
       apiList.forEach(api => {
-        const opt = document.createElement('option');
-        opt.value = api.id;
-        opt.innerText = api.name;
+        const opt = document.createElement('option'); opt.value = api.id; opt.innerText = api.name;
         if (api.id == currentApiId) opt.selected = true;
         selector.appendChild(opt);
       });
     }
 
     function loadSelectedApi() {
-      const selectedVal = document.getElementById('apiSelector').value;
-      if (selectedVal === 'new') {
+      const v = document.getElementById('apiSelector').value;
+      if (v === 'new') {
         currentApiId = Date.now();
-        document.getElementById('apiAlias').value = '新线路_' + Math.floor(Math.random()*100);
-        document.getElementById('apiHost').value = '';
-        document.getElementById('apiKey').value = '';
-        document.getElementById('apiModel').value = '';
+        document.getElementById('apiAlias').value = '新引擎';
+        ['apiHost', 'apiKey'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('modelSelector').style.display = 'none';
+        availableModels = [];
       } else {
-        currentApiId = parseInt(selectedVal);
+        currentApiId = parseInt(v);
         const api = apiList.find(a => a.id === currentApiId);
         if (api) {
           document.getElementById('apiAlias').value = api.name;
           document.getElementById('apiHost').value = api.host;
           document.getElementById('apiKey').value = api.key;
-          document.getElementById('apiModel').value = api.model;
-          localStorage.setItem('bear4_current_api', currentApiId);
+          if (api.models && api.models.length > 0) { availableModels = api.models; renderModelSelector(api.model); }
+          else { document.getElementById('modelSelector').style.display = 'none'; }
+          localStorage.setItem('bear4_current_api_v41', currentApiId);
         }
       }
     }
 
+    async function fetchModels() {
+      const host = document.getElementById('apiHost').value.trim(), key = document.getElementById('apiKey').value.trim();
+      if (!host || !key) return alert("请填写地址和 Key！");
+      const btn = document.getElementById('fetchBtn'); btn.innerText = "识别中..."; btn.disabled = true;
+      try {
+        const res = await fetch(`${host}/models`, { headers: { 'Authorization': `Bearer ${key}` } });
+        if (!res.ok) throw new Error("失败");
+        const data = await res.json();
+        availableModels = (data.data && Array.isArray(data.data)) ? data.data.map(m => m.id) : (Array.isArray(data) ? data.map(m => m.id || m) : []);
+        if (availableModels.length === 0) throw new Error("空");
+        renderModelSelector(); alert(`获取 ${availableModels.length} 个模型！`);
+      } catch (err) { alert("识别失败，请检查地址或网络。"); } finally { btn.innerText = "识别模型"; btn.disabled = false; }
+    }
+
+    function renderModelSelector(selectedModel) {
+      const selector = document.getElementById('modelSelector');
+      selector.innerHTML = '<option value="">-- 选择模型 --</option>';
+      availableModels.forEach(m => {
+        const opt = document.createElement('option'); opt.value = m; opt.innerText = m;
+        if (m === selectedModel) opt.selected = true; selector.appendChild(opt);
+      });
+      selector.style.display = 'block';
+    }
+
     function saveApi() {
-      const name = document.getElementById('apiAlias').value.trim() || '未命名线路';
-      const host = document.getElementById('apiHost').value.trim();
-      const key = document.getElementById('apiKey').value.trim();
-      const model = document.getElementById('apiModel').value.trim();
-
-      if (!host || !key || !model) { alert("⚠️ 地址、Key 和 模型都不能为空！"); return; }
-
-      const existingIndex = apiList.findIndex(a => a.id === currentApiId);
-      if (existingIndex >= 0) {
-        // 更新旧线路
-        apiList[existingIndex] = { id: currentApiId, name, host, key, model };
-      } else {
-        // 保存新线路
-        apiList.push({ id: currentApiId, name, host, key, model });
-      }
-
-      localStorage.setItem('bear4_api_list', JSON.stringify(apiList));
-      localStorage.setItem('bear4_current_api', currentApiId);
-      renderApiSelector();
-      alert("✅ 线路保存成功！随时可以在下拉框一键切换。");
+      const name = document.getElementById('apiAlias').value.trim() || '未命名', host = document.getElementById('apiHost').value.trim(), key = document.getElementById('apiKey').value.trim();
+      let model = ''; if (availableModels.length > 0) model = document.getElementById('modelSelector').value;
+      if (!host || !key) return alert("必填不能为空！");
+      const idx = apiList.findIndex(a => a.id === currentApiId);
+      if (idx >= 0) apiList[idx] = { id: currentApiId, name, host, key, model, models: availableModels };
+      else apiList.push({ id: currentApiId, name, host, key, model, models: availableModels });
+      localStorage.setItem('bear4_api_list_v41', JSON.stringify(apiList));
+      localStorage.setItem('bear4_current_api_v41', currentApiId);
+      renderApiSelector(); alert("✅ 保存成功！");
     }
 
     function deleteApi() {
-      if (apiList.length <= 1) { alert("⚠️ 至少要保留一条线路！"); return; }
-      if (confirm("确定要删除当前选中的这条线路吗？")) {
-        apiList = apiList.filter(a => a.id !== currentApiId);
-        currentApiId = apiList[0].id;
-        localStorage.setItem('bear4_api_list', JSON.stringify(apiList));
-        localStorage.setItem('bear4_current_api', currentApiId);
-        renderApiSelector();
-        loadSelectedApi();
+      if (apiList.length <= 1) return alert("保留一条！");
+      if (confirm("删除此线路？")) {
+        apiList = apiList.filter(a => a.id !== currentApiId); currentApiId = apiList[0].id;
+        localStorage.setItem('bear4_api_list_v41', JSON.stringify(apiList)); localStorage.setItem('bear4_current_api_v41', currentApiId);
+        renderApiSelector(); loadSelectedApi();
       }
     }
 
-    // ================= 词库管理与生成逻辑 =================
     function renderDrawers() {
-      const grid = document.getElementById('drawerGrid');
-      grid.innerHTML = '';
-      const categories = Object.keys(dynamicLibrary);
-      if (categories.length === 0) {
-        grid.innerHTML = `<div class="drawer-box"><div class="drawer-name">暂无分类</div><div class="drawer-count">0</div></div>`;
-        return;
+      const grid = document.getElementById('drawerGrid'); grid.innerHTML = '';
+      const cats = Object.keys(dynamicLibrary);
+      let total = 0;
+      if (cats.length === 0) { grid.innerHTML = `<div class="drawer-box"><div class="drawer-name">空</div></div>`; }
+      else {
+        cats.forEach(cat => {
+          const count = dynamicLibrary[cat].length; total += count;
+          const box = document.createElement('div'); box.className = 'drawer-box';
+          box.innerHTML = `<div class="drawer-name">${cat}</div><div class="drawer-count">${count}</div>`;
+          box.onclick = () => openCategory(cat); grid.appendChild(box);
+        });
       }
-      categories.forEach(cat => {
-        const count = dynamicLibrary[cat].length;
-        const box = document.createElement('div');
-        box.className = 'drawer-box';
-        box.innerHTML = `<div class="drawer-name">📁 ${cat}</div><div class="drawer-count">${count}</div>`;
-        grid.appendChild(box);
+      document.getElementById('totalCount').innerText = `${total} 条`;
+    }
+
+    function openCategory(cat) {
+      currentEditCategory = cat; document.getElementById('modalTitle').innerText = `${cat}`;
+      renderWordList(); document.getElementById('libModal').style.display = 'flex';
+    }
+
+    function renderWordList() {
+      const list = document.getElementById('modalList'); list.innerHTML = '';
+      dynamicLibrary[currentEditCategory].forEach((item, idx) => {
+        const div = document.createElement('div'); div.className = 'word-item';
+        div.innerHTML = `<div class="word-item-left"><span style="font-weight:600;">${item.text}</span><span style="font-size:10px;color:#999;">${item.source}</span></div><button class="del-btn" onclick="deleteWord(${idx})">删</button>`;
+        list.appendChild(div);
       });
     }
 
-    function clearLibrary() {
-      if (confirm("确定要清空所有词库数据吗？清空后不可恢复！")) {
-        dynamicLibrary = {};
-        localStorage.removeItem('bear4_library');
-        renderDrawers();
+    function deleteWord(idx) {
+      dynamicLibrary[currentEditCategory].splice(idx, 1);
+      if(dynamicLibrary[currentEditCategory].length === 0) delete dynamicLibrary[currentEditCategory];
+      localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary));
+      renderWordList(); renderDrawers();
+      if(!dynamicLibrary[currentEditCategory]) document.getElementById('libModal').style.display='none';
+    }
+
+    function addWordToCategory() {
+      const val = document.getElementById('newWordInput').value.trim(); if(!val) return;
+      if (!dynamicLibrary[currentEditCategory].some(w => w.text === val)) {
+        dynamicLibrary[currentEditCategory].push({ text: val, source: '手动' });
+        localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary)); renderWordList(); renderDrawers(); document.getElementById('newWordInput').value = '';
       }
     }
 
     document.getElementById('batchFiles').addEventListener('change', async function(e) {
-      const files = Array.from(e.target.files);
-      if (files.length === 0) return;
-
-      const host = document.getElementById('apiHost').value.trim();
-      const key = document.getElementById('apiKey').value.trim();
-      const model = document.getElementById('apiModel').value.trim();
-      if (!host || !key || !model) { alert("⚠️ 请先配置并保存 API！切词需要大模型帮忙！"); return; }
-
-      const btn = document.getElementById('uploadBtn');
-      btn.innerText = "⏳ AI 切词中 (耗时较长请勿刷新)..."; btn.disabled = true;
-
+      const files = Array.from(e.target.files); if (files.length === 0) return;
+      const api = apiList.find(a => a.id === currentApiId);
+      if (!api || !api.host || !api.key || !api.model) return alert("请配置API！");
+      const btn = document.getElementById('uploadBtn'); btn.innerText = "处理中..."; btn.disabled = true;
       try {
         for (let file of files) {
           const sourceName = file.name;
-          const text = await readFileAsync(file);
-
-          const sysPrompt = `你是一个提示词拆解专家。我给你一段整篇的英文 AI 绘图提示词，请你提取其中最有价值的【局部细节短语】（如光影、服饰、五官、背景等）。
-请严格以 JSON 格式输出，分门别类！
-格式示例：
-{
-  "服装配饰": ["dark silk robes", "silver earring"],
-  "光影氛围": ["cinematic lighting", "volumetric dust"],
-  "面部神态": ["cold eyes", "pale skin"]
-}
-你可以自己归类，只输出合法的 JSON，绝对不要输出任何废话。`;
-
-          const response = await fetch(`${host}/chat/completions`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-            body: JSON.stringify({ model: model, messages: [{"role": "system", "content": sysPrompt},{"role": "user", "content": text}], temperature: 0.3 })
+          const text = await new Promise(r => { const rd = new FileReader(); rd.onload=e=>r(e.target.result); rd.readAsText(file); });
+          const res = await fetch(`${api.host}/chat/completions`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
+            body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `提取英文短语，以JSON格式输出。示例：{"服装": ["dark silk"], "光影": ["cinematic"]}`},{"role": "user", "content": text}], temperature: 0.3 })
           });
-          
-          const data = await response.json();
-          let rawJsonStr = data.choices[0].message.content;
-          const jsonMatch = rawJsonStr.match(/\{[\s\S]*\}/);
-          if (jsonMatch) {
-            const aiResult = JSON.parse(jsonMatch[0]);
-            Object.keys(aiResult).forEach(category => {
-              if (!dynamicLibrary[category]) dynamicLibrary[category] = [];
-              const words = aiResult[category];
-              words.forEach(w => {
-                if (!dynamicLibrary[category].some(item => item.text === w)) {
-                  dynamicLibrary[category].push({ text: w, source: sourceName });
-                }
-              });
+          const data = await res.json();
+          const match = data.choices[0].message.content.match(/\{[\s\S]*\}/);
+          if (match) {
+            const res = JSON.parse(match[0]);
+            Object.keys(res).forEach(cat => {
+              if (!dynamicLibrary[cat]) dynamicLibrary[cat] = [];
+              res[cat].forEach(w => { if (!dynamicLibrary[cat].some(i => i.text === w)) dynamicLibrary[cat].push({ text: w, source: sourceName }); });
             });
           }
         }
-        localStorage.setItem('bear4_library', JSON.stringify(dynamicLibrary));
-        renderDrawers();
-        alert("✅ AI 切割完毕！已自动分类存入抽屉！");
-      } catch (err) { alert("❌ 请求失败：" + err.message); } finally {
-        btn.innerText = "📥 导入整段生肉 txt（调用当前 AI 切词）"; btn.disabled = false; e.target.value = '';
-      }
+        localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary)); renderDrawers(); alert("✅ 完成！");
+      } catch (err) {} finally { btn.innerText = "导入生肉 TXT"; btn.disabled = false; e.target.value = ''; }
     });
 
-    function readFileAsync(file) {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.readAsText(file);
-      });
+    function toggleTrace() {
+      const b = document.getElementById('traceBox'); b.style.display = b.style.display === 'block' ? 'none' : 'block';
     }
 
     async function generateMagic() {
-      const host = document.getElementById('apiHost').value.trim();
-      const key = document.getElementById('apiKey').value.trim();
-      const model = document.getElementById('apiModel').value.trim();
-      
-      const categories = Object.keys(dynamicLibrary);
-      if (categories.length === 0) { alert("⚠️ 词库为空，请先导入 txt 让 AI 解析！"); return; }
-      
+      const api = apiList.find(a => a.id === currentApiId);
+      if (!api || !api.host || !api.key || !api.model) return alert("配置API！");
+      const cats = Object.keys(dynamicLibrary); if (cats.length === 0) return alert("词库空！");
       const theme = document.getElementById('customTheme').value.trim() || '高冷神颜';
-      const genBtn = document.getElementById('genBtn');
-      genBtn.innerText = "⏳ 正在请求接口洗稿中..."; genBtn.disabled = true;
+      const batchCount = parseInt(document.getElementById('batchCount').value);
+      const btn = document.getElementById('genBtn'); btn.innerText = "生成中..."; btn.disabled = true;
 
-      let allSelectedObjs = [];
-      categories.forEach(cat => {
-        if (dynamicLibrary[cat].length > 0) {
-          const shuffled = [...dynamicLibrary[cat]].sort(() => 0.5 - Math.random());
-          allSelectedObjs.push(shuffled[0]);
-        }
-      });
-
-      const traceContainer = document.getElementById('traceContent');
-      traceContainer.innerHTML = '';
-      allSelectedObjs.forEach(obj => {
-        const div = document.createElement('div');
-        div.className = 'trace-item';
-        div.innerHTML = `${obj.text} <span class="trace-source">源: ${obj.source}</span>`;
-        traceContainer.appendChild(div);
-      });
-      document.getElementById('traceBox').style.display = 'block';
-
-      const allSelectedTexts = allSelectedObjs.map(o => o.text);
-      const sysPrompt = `你是顶级 Midjourney 提示词大师。根据主题和碎片词汇，融合成一段极具电影感的英文 Prompt。要求：保留冷感疏离美学。直接输出英文，格式如：A portrait of..., cinematic lighting, 8k --ar 9:16`;
-      const userPrompt = `主题：${theme}\n碎片词：${allSelectedTexts.join(', ')}`;
-      
-      try {
-        const response = await fetch(`${host}/chat/completions`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-          body: JSON.stringify({ model: model, messages: [{"role": "system", "content": sysPrompt},{"role": "user", "content": userPrompt}], temperature: 0.8 })
-        });
-        
-        const data = await response.json();
-        if (data.choices && data.choices[0]) {
-          document.getElementById('resultBox').innerText = data.choices[0].message.content + " --style raw --s 250";
-        } else { document.getElementById('resultBox').innerText = "❌ 接口报错：" + JSON.stringify(data); }
-      } catch (err) { document.getElementById('resultBox').innerText = "❌ 失败：" + err.message; } finally {
-        genBtn.innerText = "⚡ 一键抽卡 & 润色咒语"; genBtn.disabled = false;
+      let allTraces = []; let promptContent = `主题：${theme}\n生成 ${batchCount} 条完全不同的英文 Prompt。\n\n`;
+      for(let i=0; i<batchCount; i++) {
+        let cg = [];
+        cats.forEach(c => { if (dynamicLibrary[c].length > 0) { const shuf = [...dynamicLibrary[c]].sort(()=>0.5-Math.random()); cg.push(shuf[0]); allTraces.push(shuf[0]); } });
+        promptContent += `第${i+1}条参考词：${cg.map(o=>o.text).join(', ')}\n`;
       }
+
+      const tCon = document.getElementById('traceContent'); tCon.innerHTML = '';
+      allTraces.forEach(obj => {
+        const div = document.createElement('div'); div.className = 'trace-item';
+        div.innerHTML = `<span class="trace-word">${obj.text}</span> <span class="trace-source">${obj.source}</span>`; tCon.appendChild(div);
+      });
+
+      try {
+        const res = await fetch(`${api.host}/chat/completions`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${api.key}` },
+          body: JSON.stringify({ model: api.model, messages: [{"role": "system", "content": `融合生成极具电影感的英文 Prompt，只输出英文，每段用两个换行符隔开。不要解释。`},{"role": "user", "content": promptContent}], temperature: 0.8 })
+        });
+        const data = await res.json();
+        if (data.choices && data.choices[0]) {
+          document.getElementById('resultBox').innerText = data.choices[0].message.content.split('\n\n').map(l => l.trim() + " --style raw --s 250").join('\n\n\n');
+        } else { document.getElementById('resultBox').innerText = "❌ 错误"; }
+      } catch (err) { document.getElementById('resultBox').innerText = "❌ 失败：" + err.message; } finally { btn.innerText = "开始生成 Prompt"; btn.disabled = false; }
     }
 
     function copyResult() {
       const text = document.getElementById('resultBox').innerText;
-      if (text === '等待生成...') return;
-      navigator.clipboard.writeText(text).then(() => alert("✅ 已复制，去跑图吧！"));
+      if (text === '等待指令...') return;
+      navigator.clipboard.writeText(text).then(() => alert("✅ 已复制！"));
     }
+
+    function exportData() {
+      const data = { apiList: apiList, currentApiId: currentApiId, library: dynamicLibrary };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = `小熊炼丹机_${new Date().getTime()}.json`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    }
+
+    document.getElementById('importDataInput').addEventListener('change', function(e) {
+      const file = e.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.apiList) { apiList = data.apiList; localStorage.setItem('bear4_api_list_v41', JSON.stringify(apiList)); }
+          if (data.currentApiId) { currentApiId = data.currentApiId; localStorage.setItem('bear4_current_api_v41', currentApiId); }
+          if (data.library) { dynamicLibrary = data.library; localStorage.setItem('bear4_library_v41', JSON.stringify(dynamicLibrary)); }
+          alert("✅ 恢复成功！"); location.reload();
+        } catch (err) { alert("❌ 格式错误！"); }
+      };
+      reader.readAsText(file);
+    });
   </script>
 </body>
 </html>
